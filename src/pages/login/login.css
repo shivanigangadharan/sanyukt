@@ -1,0 +1,63 @@
+.page-container{
+    background: var(--lightergrey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
+}
+.container-login{
+    background: var(--white);
+    padding: 1.5rem 2rem;
+    box-shadow: 1px 1px 40px 0.1px var(--lightgrey);
+    width: clamp(300px, 40vw, 600px);
+}
+.heading{
+    text-align: center;
+    font-weight: 800;
+    font-size: 1.25rem;
+}
+.input-container{
+    text-align: center;
+    display: block;
+}
+.label{
+    width: fit-content;
+}
+.text-input{
+    border: 1px solid var(--lightgrey);
+    border-radius: var(--lightround);
+    padding: 0.5rem 1rem;
+    outline: none;
+    margin: 0px 0px 0.5rem 0px;
+    width: clamp(100px, 80%, 500px);
+    box-sizing: border-box;
+}
+.show-pswd{
+    font-size: 10px;
+    text-decoration: underline;
+    color: var(--blue);
+    cursor: pointer;
+}
+.remember-me{
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+}
+.remember-me a{
+    color: var(--blue);
+    text-decoration: none;
+}
+.login{
+    width: 100%;
+    margin-top: 1.5rem;
+}
+.create{
+    text-align: center;
+    margin-top: 1.5rem;
+}
+.create a{
+    color: var(--darkgrey);
+    cursor: pointer;
+}
