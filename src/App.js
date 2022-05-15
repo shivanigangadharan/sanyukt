@@ -14,14 +14,14 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<Homepage />} />
-          <Route path="/bookmarks" element={<BookmarkPage />} />
-          <Route path="/explore" element={<ExplorePage />} />
-          <Route path="/notifications" element={<NotificationsPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/post" element={<PostPage />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="" element={<Homepage />} />
+          <Route path="bookmarks" element={<BookmarkPage />} />
+          <Route path="explore" element={<ExplorePage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="post" element={<PostPage />} />
         </Routes>
       </BrowserRouter>
     </div>
