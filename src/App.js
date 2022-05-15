@@ -1,41 +1,29 @@
 import "./App.css";
-import logo from "./logo.png";
+import Login from "./pages/login/login";
+import Signup from "./pages/login/signup";
+import Homepage from "./pages/homepage/homepage";
+import BookmarkPage from "./pages/bookmark-page/bookmark-page";
+import ExplorePage from "./pages/explore-page/explore-page";
+import NotificationsPage from "./pages/notifications-page/notifications-page";
+import ProfilePage from "./pages/profile-page/profile-page";
+import PostPage from "./pages/post-page/post-page";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} alt="mockBee logo" width="180" height="180" />
-        <h1 className="brand-title">
-          Welcome to <span>mockBee!</span>
-        </h1>
-        <p className="brand-description">
-          Get started by editing <code>src/App.js</code>
-        </p>
-        <div className="links">
-          <a
-            href="https://mockbee.netlify.app/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Explore mockBee
-          </a>
-          <a
-            href="https://mockbee.netlify.app/docs/api/introduction"
-            target="_blank"
-            rel="noreferrer"
-          >
-            API Documentation
-          </a>
-          <a
-            href="https://github.com/neogcamp/mockBee"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Contribute
-          </a>
-        </div>
-      </header>
+      <BrowserRouter>
+        <Routes>
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="" element={<Homepage />} />
+          <Route path="bookmarks" element={<BookmarkPage />} />
+          <Route path="explore" element={<ExplorePage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="post" element={<PostPage />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
