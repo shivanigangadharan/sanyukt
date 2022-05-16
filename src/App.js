@@ -8,6 +8,7 @@ import NotificationsPage from "./pages/notifications-page/notifications-page";
 import ProfilePage from "./pages/profile-page/profile-page";
 import PostPage from "./pages/post-page/post-page";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Landingpage from "./pages/Landingpage/landingpage";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         <Routes>
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="" element={<Homepage />} />
+          <Route path="/" element={<Landingpage />} />
           <Route path="bookmarks" element={<BookmarkPage />} />
           <Route path="explore" element={<ExplorePage />} />
           <Route path="notifications" element={<NotificationsPage />} />

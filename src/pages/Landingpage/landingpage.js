@@ -1,11 +1,11 @@
 import React from 'react';
 import socialNetworking from '../../assets/socialNetworking.svg';
-import './homepage.css';
+import './landingpage.css';
 import { Link } from 'react-router-dom';
 
-export default function Homepage() {
+export default function Landingpage() {
     return (
-        <div className="homepage-container">
+        <div className="landingpage-container">
             <div className="content">
                 <div> <span className="app-title red"> Social </span><span className="app-title"> Media</span>
                 </div>
