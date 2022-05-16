@@ -2,6 +2,7 @@ import React from 'react';
 import socialNetworking from '../../assets/socialNetworking.svg';
 import './landingpage.css';
 import { Link } from 'react-router-dom';
+import '../../styles.css';
 
 export default function Landingpage() {
     return (

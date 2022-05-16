@@ -1,0 +1,33 @@
+.sidebar-container{
+    width: max-content;
+    padding: 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    box-sizing: border-box;
+}
+.menu-options{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: left;
+}
+.user-avatar-div{
+    display: flex;
+    align-content: center;
+}
+.avatar{
+    width: 2.5rem;
+}
+.create-post{
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: 1px;
+    padding: 0.5rem 2.5rem;
+    color: white;
+    cursor: pointer;
+}
+.create-post:hover{
+    background: var(--secondary);
+}

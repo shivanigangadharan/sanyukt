@@ -1,4 +1,4 @@
-.homepage-container{
+.landingpage-container{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,8 +18,8 @@
     font-size: 4rem;
     font-weight: 700;
 }
-.red{
-    color: #DD2D4A;
+.primary{
+    color: var(--primary);
 }
 .tag-lines{
     font-weight: 700;
@@ -39,33 +39,28 @@
         font-size: 3rem;
     }
 }
-.btn{
-    padding: 1rem 2rem;
-    border-radius: 4px;
-    width: 100%;
-}
 .text-center{
     text-align: center;
 }
 .join-now{
-    background: #DD2D4A;
+    background: var(--primary);
     outline: none;
     color: white;
-    border: 1px solid #DD2D4A;
+    border: 1px solid var(--primary);
     font-size: 1rem;
 }
 .join-now:hover{
-    background: rgb(248, 83, 111);
+    background: var(--secondary);
     cursor: pointer;
 }
 .small-sub-text{
     font-size: 1rem;
-    color: #DD2D4A;
+    color: var(--primary);
     margin-top: 2rem;
     text-align: center;
     text-decoration: none;
 }
 .small-sub-text:hover{
-    color: rgb(252, 6, 47);
+    color: var(--secondary);
     cursor: pointer;
 }
