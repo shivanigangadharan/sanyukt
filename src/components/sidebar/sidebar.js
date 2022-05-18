@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles.css';
 import './sidebar.css';
-import defaultImg from '../../assets/defaultImg.png';
+import avatar from '../../assets/defaultImg.png';
 
 export default function Sidebar() {
     return (
@@ -12,14 +12,19 @@ export default function Sidebar() {
                 <div><i className="fa-solid fa-bookmark"></i> Bookmarks</div>
                 <div><i className="fa-solid fa-bell"></i> Notifications </div>
                 <div><i className="fa-solid fa-circle-user"></i> Profile </div>
-                <button className="btn create-post"> Create new post </button>
+                <button className="btn create-post-btn"> Create new post </button>
             </div>
-            <div className="user-avatar-div">
-                <img className="avatar" src={defaultImg} />
-                <div>
-                    Tanay Pratap <br />
-                    @tanaypratap
+            <div className="user-avatar-container">
+                <div className="user-avatar-content">
+                    <img className="avatar" src={avatar} />
+                    <div>
+                        Tanay Pratap <br />
+                        <span className="grey-text"> @tanaypratap</span>
                     </div>
+                </div>
+                <div>
+                    <i class="fa-solid fa-ellipsis"></i>
+                </div>
             </div>
         </div>
     )

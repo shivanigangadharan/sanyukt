@@ -1,0 +1,25 @@
+.post-container{
+    display: flex;
+    padding: 2rem;
+    gap: 1.5rem;
+    width: 80%;
+    text-align: left;
+    background: white;
+    height: max-content;
+    margin-top: 2%;
+}
+.post-title{
+    display: flex;
+    gap: 1rem;
+}
+.post-icons{
+    margin-top: 1rem;
+    font-size: 1.25rem;
+    color: grey;
+    display: flex;
+    justify-content: space-between;
+}
+.post-icons>*:hover{
+    color: var(--primary);
+    cursor: pointer;
+}

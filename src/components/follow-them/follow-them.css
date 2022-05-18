@@ -1,0 +1,14 @@
+.follow-them-container{
+    background: white;
+    width: 25%;
+    height: max-content;
+    padding: 1rem;
+}
+.follow-them-title{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.red-text{
+    color: var(--red);
+}

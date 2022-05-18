@@ -1,10 +1,23 @@
+@import url("./components/user-avatar/user-avatar.css");
+
 :root{
     --background-grey: #F7F7F7;
     --primary: #139185;
     --secondary: #22aa9c;
+    --red: #DD2D4A;
 }
 .btn{
     padding: 1rem 2rem;
     border-radius: 4px;
     width: 100%;
+}
+.avatar{
+    width: 2.5rem;
+    height: 2.5rem;
+}
+.grey-text{
+    color: grey;
+}
+.red-text{
+    color: #DD2D4A;
 }

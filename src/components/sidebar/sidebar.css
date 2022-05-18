@@ -1,6 +1,6 @@
 .sidebar-container{
     width: max-content;
-    padding: 2rem 4rem;
+    padding-right: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -10,17 +10,18 @@
 .menu-options{
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
     text-align: left;
 }
-.user-avatar-div{
-    display: flex;
-    align-content: center;
+.menu-options>*{
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
 }
-.avatar{
-    width: 2.5rem;
+.menu-options>*:hover{
+    background: lightgrey;
 }
-.create-post{
+.create-post-btn{
     background: var(--primary);
     border: 1px solid var(--primary);
     border-radius: 1px;
@@ -28,6 +29,6 @@
     color: white;
     cursor: pointer;
 }
-.create-post:hover{
+.create-post-btn:hover{
     background: var(--secondary);
 }
