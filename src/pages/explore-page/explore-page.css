@@ -1,0 +1,22 @@
+.explore-categories{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+.explore-categories>*{
+    border: 2px solid lightgrey;
+    border-radius: 2px;
+    padding: 0.5rem 1rem;
+    background: none;
+    color: rgb(160, 160, 160);
+}
+.explore-categories>*:hover{
+    border: 2px solid grey;
+    color: grey;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+.selected{
+    color: black;
+    border: 2px solid black;
+}

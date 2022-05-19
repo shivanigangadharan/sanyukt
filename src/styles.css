@@ -1,4 +1,5 @@
 @import url("./components/user-avatar/user-avatar.css");
+@import url("./pages/homepage/homepage.css");
 
 :root{
     --background-grey: #F7F7F7;
