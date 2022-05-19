@@ -19,10 +19,10 @@ export default function Post() {
                     Interested in helping me build this course? Join the telegram group (in next tweet)
                 </div>
                 <div className="post-icons">
-                    <span> <i class="fa-regular fa-heart"></i> </span>
-                    <span> <i class="fa-regular fa-comment"></i> </span>
-                    <span> <i class="fa-regular fa-share-from-square"></i> </span>
-                    <span> <i class="fa-regular fa-bookmark"></i> </span>
+                    <span> <i className="fa-regular fa-heart"></i> </span>
+                    <span> <i className="fa-regular fa-comment"></i> </span>
+                    <span> <i className="fa-regular fa-share-from-square"></i> </span>
+                    <span> <i className="fa-regular fa-bookmark"></i> </span>
                 </div>
             </div>
         </div>

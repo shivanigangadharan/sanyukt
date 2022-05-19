@@ -7,11 +7,11 @@ export default function Sidebar() {
     return (
         <div className="sidebar-container">
             <div className="menu-options">
-                <div><i className="fa-solid fa-house"></i> Home</div>
-                <div><i className="fa-solid fa-rocket"></i> Explore</div>
-                <div><i className="fa-solid fa-bookmark"></i> Bookmarks</div>
-                <div><i className="fa-solid fa-bell"></i> Notifications </div>
-                <div><i className="fa-solid fa-circle-user"></i> Profile </div>
+                <span><i className="fa-solid fa-house"></i> Home</span>
+                <span><i className="fa-solid fa-rocket"></i> Explore</span>
+                <span><i className="fa-solid fa-bookmark"></i> Bookmarks</span>
+                <span><i className="fa-solid fa-bell"></i> Notifications </span>
+                <span><i className="fa-solid fa-circle-user"></i> Profile </span>
                 <button className="btn create-post-btn"> Create new post </button>
             </div>
             <div className="user-avatar-container">
@@ -23,7 +23,7 @@ export default function Sidebar() {
                     </div>
                 </div>
                 <div>
-                    <i class="fa-solid fa-ellipsis"></i>
+                    <i className="fa-solid fa-ellipsis"></i>
                 </div>
             </div>
         </div>
