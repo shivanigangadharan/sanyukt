@@ -19,6 +19,7 @@ export default function ProfilePage() {
                     <span className="username"> @shivanigangadharan </span>
                     <button className="edit-profile-btn"> Edit profile </button>
                     <span className="bio"> Bio - a short description of you specifying your work, interests, hobbies, etc. </span>
+                    <a target="_blank" href="https://neogrammershivani.netlify.app/" className="bio red-text"> https://neogrammershivani.netlify.app/</a>
                 </div>
                 <center>
                     <div className="profile-numbers">
