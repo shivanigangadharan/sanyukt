@@ -9,7 +9,7 @@ export default function BookmarkPage() {
     return (
         <div className="homepage-container">
             <Sidebar />
-            <div className="homepage-posts">
+            <div className="homepage-content">
                 <h3> Your bookmarks </h3>
                 <Post />
                 <Post />

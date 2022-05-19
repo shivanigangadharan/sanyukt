@@ -10,7 +10,7 @@ export default function ExplorePage() {
     return (
         <div className="homepage-container">
             <Sidebar />
-            <div className="homepage-posts">
+            <div className="homepage-content">
                 <h3> Explore </h3>
                 <div className="explore-categories">
                     <button> For you </button>
