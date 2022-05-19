@@ -17,9 +17,7 @@ export default function Homepage() {
                 <Post />
                 <Post />
             </div>
-
             <FollowThem />
-
         </div>
     )
 }

@@ -1,11 +1,12 @@
 .sidebar-container{
-    width: max-content;
     padding-right: 2rem;
+    padding-bottom: 4rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
     box-sizing: border-box;
+    position: fixed;
 }
 .menu-options{
     display: flex;
