@@ -1,32 +1,23 @@
 import React from 'react';
-import socialNetworking from '../../assets/socialNetworking.svg';
+import '../../styles.css';
 import './homepage.css';
-import { Link } from 'react-router-dom';
+import Sidebar from '../../components/sidebar/sidebar';
+import Post from '../../components/post/post';
+import CreatePost from '../../components/create-post/create-post';
+import FollowThem from '../../components/follow-them/follow-them';
 
 export default function Homepage() {
     return (
         <div className="homepage-container">
-            <div className="content">
-                <div> <span className="app-title red"> Social </span><span className="app-title"> Media</span>
-                </div>
-                <div className="tag-lines">
-                    <span className="highlighted"> FOLLOW </span> PEOPLE AROUND THE GLOBE <br />
-                    <span className="highlighted"> CONNECT </span> WITH YOUR FRIENDS <br />
-                    <span className="highlighted"> SHARE </span> WHAT YOU'RE THINKING <br />
-                </div>
-                <div className="text-center">
-                    <Link to="/signup">
-                        <button className="btn join-now"> SIGN UP </button><br />
-                    </Link>
-                    <Link to="/login" className="small-sub-text">
-                        <span> Already have an account? </span>
-                    </Link>
-                </div>
+            <Sidebar />
+            <div className="homepage-posts">
+                <CreatePost />
+                <h3> Latest posts</h3>
+                <Post />
+                <Post />
+                <Post />
             </div>
-            <div>
-                <img className="socialNetworking-img" src={socialNetworking} alt="socialNetworking-img" />
-            </div>
-
+            <FollowThem />
         </div>
     )
 }
