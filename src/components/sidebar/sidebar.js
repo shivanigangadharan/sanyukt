@@ -19,8 +19,8 @@ export default function Sidebar() {
                 <div className="user-avatar-content">
                     <img className="avatar" src={avatar} />
                     <div>
-                        Tanay Pratap <br />
-                        <span className="grey-text"> @tanaypratap</span>
+                        G Shivani <br />
+                        <span className="grey-text"> @gshivani</span>
                     </div>
                 </div>
                 <div>

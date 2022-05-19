@@ -10,7 +10,7 @@ export default function Homepage() {
     return (
         <div className="homepage-container">
             <Sidebar />
-            <div className="homepage-posts">
+            <div className="homepage-content">
                 <CreatePost />
                 <h3> Latest posts</h3>
                 <Post />

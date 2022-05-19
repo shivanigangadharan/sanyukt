@@ -9,8 +9,8 @@ export default function Post() {
             <img className="avatar" src={avatar} alt="user-avatar" />
             <div>
                 <div className="post-title">
-                    <b>Tanay Pratap</b>
-                    <span style={{ 'color': 'grey' }}> @tanaypratap</span>
+                    <b>Shivani Gangadharan</b>
+                    <span style={{ 'color': 'grey' }}> @gshivani</span>
                     <span style={{ 'color': 'grey' }}>  &#9679; 1m </span>
                 </div>
                 <div>
