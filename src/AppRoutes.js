@@ -13,7 +13,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 export default function AppRoutes() {
     return (
         <div>
-
             <Routes>
                 <Route path="login" element={<Login />} />
                 <Route path="signup" element={<Signup />} />

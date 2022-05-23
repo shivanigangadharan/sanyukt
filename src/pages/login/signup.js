@@ -24,7 +24,7 @@ export default function Signup() {
         else {
             if (checkTerms) {
                 if (SignupUser(firstName, lastName, username, email, password) !== null) {
-                    navigate("/");
+                    navigate("/explore");
                 }
             } else {
                 alert("Please accept terms and conditions.");
