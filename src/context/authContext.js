@@ -35,7 +35,6 @@ export const AuthProvider = ({ children }) => {
                 email: email,
                 password: password
             });
-            console.log(res);
             setUser(res.data.foundUser);
             setEncodedToken(res.data.encodedToken);
             localStorage.setItem("token", JSON.stringify(res.data.encodedToken));

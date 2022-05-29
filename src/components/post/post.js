@@ -39,6 +39,7 @@ export default function Post({ post }) {
                 });
             setUser({ ...user, bookmarks: res.data.bookmarks })
         } catch (e) {
+            alert("Unable to remove this bookmark.");
             console.log(e);
         }
     }
