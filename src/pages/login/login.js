@@ -16,7 +16,7 @@ export default function Login() {
         else {
             const LoginResponse = await LoginUser(email, password);
             if (LoginResponse) {
-                navigate("/");
+                navigate("/homepage");
             } else {
                 alert("Invalid credentials, please sign up.");
             }

@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../styles.css';
 import './sidebar.css';
 import avatar from '../../assets/defaultImg.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/authContext';
 
 export default function Sidebar() {
+    const { user } = useAuth();
+    const [loggedUser, setLoggedUser] = useState(null);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (user) {
+            setLoggedUser(user);
+        }
+    }, [user])
     return (
         <div className="sidebar-container">
             <div className="menu-options">
@@ -18,10 +27,14 @@ export default function Sidebar() {
             <div className="user-avatar-container">
                 <div className="user-avatar-content">
                     <img className="avatar" src={avatar} />
-                    <div>
-                        G Shivani <br />
-                        <span className="grey-text"> @gshivani</span>
-                    </div>
+
+                    {
+                        loggedUser === null ? <div> </div> : <div>
+                            {loggedUser.firstName} {loggedUser.lastName} <br />
+                            <span className="grey-text"> @{loggedUser.username}</span>
+                        </div>
+                    }
+
                 </div>
                 <div>
                     <i className="fa-solid fa-ellipsis"></i>

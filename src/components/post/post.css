@@ -2,7 +2,8 @@
     display: flex;
     padding: 2rem;
     gap: 1.5rem;
-    width: 80%;
+    width: 90%;
+    max-width: 40rem;
     text-align: left;
     background: white;
     height: max-content;
