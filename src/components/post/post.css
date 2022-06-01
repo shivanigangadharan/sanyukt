@@ -2,8 +2,9 @@
     display: flex;
     padding: 2rem;
     gap: 1.5rem;
-    width: 90%;
+    width: 100%;
     max-width: 40rem;
+    min-width: 40rem;
     text-align: left;
     background: white;
     height: max-content;
@@ -13,8 +14,12 @@
     display: flex;
     gap: 1rem;
 }
+.post-content{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
 .post-icons{
-    margin-top: 1rem;
     font-size: 1.25rem;
     color: grey;
     display: flex;

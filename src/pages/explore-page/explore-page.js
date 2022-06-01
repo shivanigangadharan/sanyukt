@@ -7,15 +7,50 @@ import '../../styles.css';
 import './explore-page.css';
 import { useAuth } from '../../context/authContext';
 import axios from 'axios';
+import { postsRef, usersRef } from '../../firebase';
+import { getDocs, addDoc } from '@firebase/firestore';
 
 export default function ExplorePage() {
     const { user } = useAuth();
     const [posts, setPosts] = useState([]);
+    const [loggedUser, setLoggedUser] = useState();
+    const fetchPosts = async () => {
+        const res = await getDocs(postsRef);
+        let posts = [];
+        res.forEach((doc) => {
+            posts.push({ ...doc.data(), id: doc.id });
+        });
+        setPosts(posts);
+    }
+
+    const fetchUser = async () => {
+        const res = await getDocs(usersRef, "/users/Ur2LHJWBUSmLdaTC4xZb");
+        res.docs.forEach(u => {
+            if (JSON.stringify(u.data().uid) === localStorage.getItem("uid")) {
+                setLoggedUser(u.data());
+                console.log("Current user: ", loggedUser);
+            }
+        })
+    }
 
     useEffect(async () => {
-        const res = await axios.get("/api/posts")
-        setPosts(res.data.posts);
+        fetchPosts();
+        fetchUser();
     }, [user]);
+
+    const handleAddPost = async () => {
+        try {
+            const res = await addDoc(postsRef, {
+                title: "A test sample post",
+                content: "Some content for sample post.",
+                fullName: loggedUser.fullName,
+                username: loggedUser.username,
+                uid: localStorage.getItem("uid")
+            });
+            fetchPosts();
+        } catch (e) { console.log(e) }
+    }
+
     return (
         <div className="homepage-container">
             <Sidebar />
@@ -30,9 +65,10 @@ export default function ExplorePage() {
                 </div>
                 {
                     posts.map((post) => {
-                        return <Post post={post} key={post._id} />
+                        return <Post post={post} key={post.id} />
                     })
                 }
+                <span onClick={handleAddPost}> <button> Add a test post </button> </span>
             </div>
             <FollowThem />
         </div>

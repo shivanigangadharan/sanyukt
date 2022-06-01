@@ -11,8 +11,8 @@ export default function Post({ post }) {
     const { dispatch } = useStateContext();
     const [comments, setComments] = useState([]);
     const [bookmarked, setBookmarked] = useState(false);
+    const { content, title, likes, id, email, username, fullName } = post;
 
-    const { content, username, firstName, lastName, likes, _id } = post;
 
     const addBookmark = async () => {
         try {
@@ -53,17 +53,17 @@ export default function Post({ post }) {
     return (
         <div className="post-container">
             <img className="avatar" src={avatar} alt="user-avatar" />
-            <div>
+            <div className="post-content">
                 <div className="post-title">
-                    <b>{firstName} {lastName}</b>
+                    <b>{fullName}</b>
                     <span style={{ 'color': 'grey' }}> @{username}</span>
-                    <span style={{ 'color': 'grey' }}>  &#9679; 1m </span>
+                    {/* <span style={{ 'color': 'grey' }}>  &#9679; 1m </span> */}
                 </div>
                 <div>
                     {content}
                 </div>
                 <div className="post-icons">
-                    <span> <i className="fa-regular fa-heart"></i> <span style={{ 'fontSize': '1rem' }}> {likes.likeCount} </span></span>
+                    <span> <i className="fa-regular fa-heart"></i> <span style={{ 'fontSize': '1rem' }}> {likes} </span></span>
                     <span> <i className="fa-regular fa-comment"></i> </span>
                     <span> <i className="fa-regular fa-share-from-square"></i> </span>
                     <span onClick={handleBookmarkClick}> <i className="fa-regular fa-bookmark"></i> </span>

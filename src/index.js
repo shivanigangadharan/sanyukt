@@ -7,7 +7,7 @@ import { AuthProvider } from "./context/authContext";
 import { StateProvider } from "./context/stateContext";
 
 // Call make Server
-makeServer();
+// makeServer();
 
 ReactDOM.render(
   <React.StrictMode>
