@@ -6,9 +6,8 @@ import FollowThem from '../../components/follow-them/follow-them';
 import '../../styles.css';
 import './explore-page.css';
 import { useAuth } from '../../context/authContext';
-import axios from 'axios';
-import { postsRef, usersRef } from '../../firebase';
-import { getDocs, addDoc } from '@firebase/firestore';
+import { postsRef, usersRef, db } from '../../firebase';
+import { getDocs, addDoc, query, collection, where } from '@firebase/firestore';
 
 export default function ExplorePage() {
     const { user } = useAuth();
@@ -24,7 +23,8 @@ export default function ExplorePage() {
     }
 
     const fetchUser = async () => {
-        const res = await getDocs(usersRef, "/users/Ur2LHJWBUSmLdaTC4xZb");
+        const userID = localStorage.getItem("uid").replace(/^"(.*)"$/, '$1');
+        const res = await getDocs(usersRef, `/users/${userID}`);
         res.docs.forEach(u => {
             if (JSON.stringify(u.data().uid) === localStorage.getItem("uid")) {
                 setLoggedUser(u.data());
@@ -35,7 +35,7 @@ export default function ExplorePage() {
 
     useEffect(async () => {
         fetchPosts();
-        fetchUser();
+        // fetchUser();
     }, [user]);
 
     const handleAddPost = async () => {
@@ -69,6 +69,7 @@ export default function ExplorePage() {
                     })
                 }
                 <span onClick={handleAddPost}> <button> Add a test post </button> </span>
+
             </div>
             <FollowThem />
         </div>

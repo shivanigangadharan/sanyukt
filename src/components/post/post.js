@@ -44,6 +44,7 @@ export default function Post({ post }) {
         }
     }
     const handleBookmarkClick = async () => {
+
         if (user.bookmarks.some(p => p._id === post._id)) {
             removeBookmark();
         } else {

@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import {
-    getFirestore, collection, getDocs
+    getFirestore, collection, getDocs, getDoc, getDocsFromCache, doc, query, where
 } from 'firebase/firestore';
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -18,8 +18,9 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 //initialize services - connecting to database
-const db = getFirestore();
+export const db = getFirestore();
 
 // reference to a particular collection, here, posts.
 export const postsRef = collection(db, "posts");
 export const usersRef = collection(db, "users");
+
