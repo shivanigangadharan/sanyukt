@@ -17,10 +17,6 @@ export const AuthProvider = ({ children }) => {
     const [uid, setUid] = useState(localStorage.getItem("uid"));
     const auth = getAuth();
 
-    useEffect(() => {
-        console.log("User token in UE of authContext : ", user);
-    });
-
     const setUserInLocalStorage = async (uid) => {
         const res = await getDocs(usersRef);
         res.forEach((doc) => {
@@ -53,7 +49,6 @@ export const AuthProvider = ({ children }) => {
     const SignupUser = async (fullName, username, email, password) => {
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
-            console.log("User created: ", res.user);
             setEncodedToken(res.user.accessToken);
             localStorage.setItem("token", JSON.stringify(res.user.accessToken));
             localStorage.setItem("uid", JSON.stringify(res.user.uid));
@@ -85,7 +80,6 @@ export const AuthProvider = ({ children }) => {
     const LogoutUser = async () => {
         try {
             const res = await signOut(auth);
-            console.log("User has signed out");
             localStorage.removeItem("token");
             setUser(null);
             localStorage.removeItem("uid");
