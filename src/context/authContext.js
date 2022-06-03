@@ -25,8 +25,8 @@ export const AuthProvider = ({ children }) => {
         const res = await getDocs(usersRef);
         res.forEach((doc) => {
             if (doc.data().uid === uid) {
-                setUser(doc.data());
-                localStorage.setItem("user", JSON.stringify(doc.data()))
+                setUser({ ...doc.data(), id: doc.id });
+                localStorage.setItem("user", JSON.stringify({ ...doc.data(), id: doc.id }))
             }
         });
     }

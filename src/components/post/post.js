@@ -5,6 +5,8 @@ import avatar from '../../assets/defaultImg.png';
 import axios from 'axios';
 import { useAuth } from '../../context/authContext';
 import { useStateContext } from '../../context/stateContext';
+import { usersRef, db } from '../../firebase';
+import { updateDoc, arrayUnion, collection, doc, arrayRemove } from '@firebase/firestore';
 
 export default function Post({ post }) {
     const { user, setUser, encodedToken } = useAuth();
@@ -16,13 +18,12 @@ export default function Post({ post }) {
 
     const addBookmark = async () => {
         try {
-            const res = await axios.post(`/api/users/bookmark/${_id}`, {},
-                {
-                    headers: {
-                        authorization: encodedToken
-                    }
-                });
-            setUser({ ...user, bookmarks: res.data.bookmarks });
+            const userRef = doc(db, `users/${user.id}`);
+            const res = await updateDoc(userRef, {
+                bookmarks: arrayUnion(id)
+            })
+            setUser({ ...user, bookmarks: [...user.bookmarks, id] });
+            localStorage.setItem("user", JSON.stringify({ ...user, bookmarks: [...user.bookmarks, id] }));
         }
         catch (e) {
             console.log(e);
@@ -31,21 +32,22 @@ export default function Post({ post }) {
 
     const removeBookmark = async () => {
         try {
-            const res = await axios.post(`/api/users/remove-bookmark/${_id}`, {},
-                {
-                    headers: {
-                        authorization: encodedToken
-                    }
-                });
-            setUser({ ...user, bookmarks: res.data.bookmarks })
+            const userRef = doc(db, `users/${user.id}`);
+            const res = await updateDoc(userRef, {
+                bookmarks: arrayRemove(id)
+            });
+            console.log("Removing bookmark : ", res);
+            const filteredBookmarks = user.bookmarks.filter((pid) => pid !== id);
+            setUser({ ...user, bookmarks: filteredBookmarks });
+            localStorage.setItem("user", JSON.stringify({ ...user, bookmarks: filteredBookmarks }));
+
         } catch (e) {
             alert("Unable to remove this bookmark.");
             console.log(e);
         }
     }
     const handleBookmarkClick = async () => {
-
-        if (user.bookmarks.some(p => p._id === post._id)) {
+        if (user.bookmarks.some(postID => postID === id)) {
             removeBookmark();
         } else {
             addBookmark();
@@ -67,7 +69,15 @@ export default function Post({ post }) {
                     <span> <i className="fa-regular fa-heart"></i> <span style={{ 'fontSize': '1rem' }}> {likes} </span></span>
                     <span> <i className="fa-regular fa-comment"></i> </span>
                     <span> <i className="fa-regular fa-share-from-square"></i> </span>
-                    <span onClick={handleBookmarkClick}> <i className="fa-regular fa-bookmark"></i> </span>
+                    {user.bookmarks.includes(id) ?
+                        <div>
+                            <span onClick={handleBookmarkClick}> <i className="fa-solid fa-bookmark"></i> </span>
+                        </div> :
+                        <div>
+                            <span onClick={handleBookmarkClick}> <i className="fa-regular fa-bookmark"></i> </span>
+                        </div>
+
+                    }
                 </div>
             </div>
         </div>
