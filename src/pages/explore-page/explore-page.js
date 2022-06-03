@@ -12,7 +12,7 @@ import { getDocs, addDoc, query, collection, where } from '@firebase/firestore';
 export default function ExplorePage() {
     const { user } = useAuth();
     const [posts, setPosts] = useState([]);
-    const [loggedUser, setLoggedUser] = useState();
+
     const fetchPosts = async () => {
         const res = await getDocs(postsRef);
         let posts = [];
@@ -22,20 +22,8 @@ export default function ExplorePage() {
         setPosts(posts);
     }
 
-    const fetchUser = async () => {
-        const userID = localStorage.getItem("uid").replace(/^"(.*)"$/, '$1');
-        const res = await getDocs(usersRef, `/users/${userID}`);
-        res.docs.forEach(u => {
-            if (JSON.stringify(u.data().uid) === localStorage.getItem("uid")) {
-                setLoggedUser(u.data());
-                console.log("Current user: ", loggedUser);
-            }
-        })
-    }
-
     useEffect(async () => {
         fetchPosts();
-        // fetchUser();
     }, [user]);
 
     const handleAddPost = async () => {
@@ -43,8 +31,8 @@ export default function ExplorePage() {
             const res = await addDoc(postsRef, {
                 title: "A test sample post",
                 content: "Some content for sample post.",
-                fullName: loggedUser.fullName,
-                username: loggedUser.username,
+                fullName: user.fullName,
+                username: user.username,
                 uid: localStorage.getItem("uid")
             });
             fetchPosts();

@@ -18,7 +18,6 @@ export default function Sidebar() {
 
     const handleLogout = async () => {
         const res = await LogoutUser();
-        console.log(res, "logout");
     }
 
     return (

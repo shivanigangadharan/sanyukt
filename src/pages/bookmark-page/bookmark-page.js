@@ -16,12 +16,10 @@ export default function BookmarkPage() {
     const [posts, setPosts] = useState([]);
     const navigate = useNavigate();
 
-    console.log("posts hook :", posts)
-
     useEffect(async () => {
         if (localStorage.getItem("uid") !== null) {
             try {
-                let postsArr = []
+                let postsArr = [];
                 const res = await getDocs(postsRef);
                 res.docs.forEach((e) => {
                     postsArr.push({ ...e.data(), id: e.id });

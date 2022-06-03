@@ -7,6 +7,7 @@ import { useAuth } from '../../context/authContext';
 import { useStateContext } from '../../context/stateContext';
 import { usersRef, db } from '../../firebase';
 import { updateDoc, arrayUnion, collection, doc, arrayRemove } from '@firebase/firestore';
+import { useNavigate } from 'react-router';
 
 export default function Post({ post }) {
     const { user, setUser, encodedToken } = useAuth();
@@ -14,7 +15,7 @@ export default function Post({ post }) {
     const [comments, setComments] = useState([]);
     const [bookmarked, setBookmarked] = useState(false);
     const { content, title, likes, id, email, username, fullName } = post;
-
+    const navigate = useNavigate();
 
     const addBookmark = async () => {
         try {
@@ -36,7 +37,6 @@ export default function Post({ post }) {
             const res = await updateDoc(userRef, {
                 bookmarks: arrayRemove(id)
             });
-            console.log("Removing bookmark : ", res);
             const filteredBookmarks = user.bookmarks.filter((pid) => pid !== id);
             setUser({ ...user, bookmarks: filteredBookmarks });
             localStorage.setItem("user", JSON.stringify({ ...user, bookmarks: filteredBookmarks }));
@@ -47,10 +47,16 @@ export default function Post({ post }) {
         }
     }
     const handleBookmarkClick = async () => {
-        if (user.bookmarks.some(postID => postID === id)) {
-            removeBookmark();
-        } else {
-            addBookmark();
+        if (user) {
+            if (user.bookmarks.some(postID => postID === id)) {
+                removeBookmark();
+            } else {
+                addBookmark();
+            }
+        }
+        else {
+            alert("Please sign in to add bookmark.");
+            navigate("/login");
         }
     }
     return (
@@ -60,7 +66,6 @@ export default function Post({ post }) {
                 <div className="post-title">
                     <b>{fullName}</b>
                     <span style={{ 'color': 'grey' }}> @{username}</span>
-                    {/* <span style={{ 'color': 'grey' }}>  &#9679; 1m </span> */}
                 </div>
                 <div>
                     {content}
@@ -69,14 +74,13 @@ export default function Post({ post }) {
                     <span> <i className="fa-regular fa-heart"></i> <span style={{ 'fontSize': '1rem' }}> {likes} </span></span>
                     <span> <i className="fa-regular fa-comment"></i> </span>
                     <span> <i className="fa-regular fa-share-from-square"></i> </span>
-                    {user.bookmarks.includes(id) ?
+                    {user && user.bookmarks.includes(id) ?
                         <div>
                             <span onClick={handleBookmarkClick}> <i className="fa-solid fa-bookmark"></i> </span>
                         </div> :
                         <div>
                             <span onClick={handleBookmarkClick}> <i className="fa-regular fa-bookmark"></i> </span>
                         </div>
-
                     }
                 </div>
             </div>
