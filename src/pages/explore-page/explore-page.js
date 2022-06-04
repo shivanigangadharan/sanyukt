@@ -6,16 +6,39 @@ import FollowThem from '../../components/follow-them/follow-them';
 import '../../styles.css';
 import './explore-page.css';
 import { useAuth } from '../../context/authContext';
-import axios from 'axios';
+import { postsRef, usersRef, db } from '../../firebase';
+import { getDocs, addDoc, query, collection, where } from '@firebase/firestore';
 
 export default function ExplorePage() {
     const { user } = useAuth();
     const [posts, setPosts] = useState([]);
 
+    const fetchPosts = async () => {
+        const res = await getDocs(postsRef);
+        let posts = [];
+        res.forEach((doc) => {
+            posts.push({ ...doc.data(), id: doc.id });
+        });
+        setPosts(posts);
+    }
+
     useEffect(async () => {
-        const res = await axios.get("/api/posts")
-        setPosts(res.data.posts);
+        fetchPosts();
     }, [user]);
+
+    const handleAddPost = async () => {
+        try {
+            const res = await addDoc(postsRef, {
+                title: "A test sample post",
+                content: "Some content for sample post.",
+                fullName: user.fullName,
+                username: user.username,
+                uid: localStorage.getItem("uid")
+            });
+            fetchPosts();
+        } catch (e) { console.log(e) }
+    }
+
     return (
         <div className="homepage-container">
             <Sidebar />
@@ -30,9 +53,11 @@ export default function ExplorePage() {
                 </div>
                 {
                     posts.map((post) => {
-                        return <Post post={post} key={post._id} />
+                        return <Post post={post} key={post.id} />
                     })
                 }
+                <span onClick={handleAddPost}> <button> Add a test post </button> </span>
+
             </div>
             <FollowThem />
         </div>

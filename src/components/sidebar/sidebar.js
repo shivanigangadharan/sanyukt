@@ -4,16 +4,22 @@ import './sidebar.css';
 import avatar from '../../assets/defaultImg.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
+import { signOut } from 'firebase/auth';
 
 export default function Sidebar() {
-    const { user } = useAuth();
+    const { user, LogoutUser } = useAuth();
     const [loggedUser, setLoggedUser] = useState(null);
     const navigate = useNavigate();
     useEffect(() => {
         if (user) {
             setLoggedUser(user);
         }
-    }, [user])
+    }, [user]);
+
+    const handleLogout = async () => {
+        const res = await LogoutUser();
+    }
+
     return (
         <div className="sidebar-container">
             <div className="menu-options">
@@ -22,6 +28,7 @@ export default function Sidebar() {
                 <Link to="/bookmarks"><span><i className="fa-solid fa-bookmark"></i> Bookmarks</span></Link>
                 <Link to="/notifications"><span><i className="fa-solid fa-bell"></i> Notifications </span></Link>
                 <Link to="/profile"><span><i className="fa-solid fa-circle-user"></i> Profile </span></Link>
+                <span onClick={handleLogout}><i className="fa-solid fa-arrow-right-from-bracket"></i> Logout </span>
                 <button className="btn create-post-btn"> Create new post </button>
             </div>
             <div className="user-avatar-container">

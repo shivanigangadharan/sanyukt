@@ -7,25 +7,31 @@ import '../../styles.css';
 import { useAuth } from '../../context/authContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { db, postsRef } from '../../firebase';
+import { query, collection, where, getDocs } from '@firebase/firestore';
 
 export default function BookmarkPage() {
     const { user, encodedToken } = useAuth();
+    const [postIDs, setPostIDs] = useState([]);
     const [posts, setPosts] = useState([]);
     const navigate = useNavigate();
+
     useEffect(async () => {
-        if (user !== null) {
-            const res = await axios.get("/api/users/bookmark/", {
-                headers: {
-                    authorization: encodedToken
-                }
-            });
-            setPosts(res.data.bookmarks);
+        if (localStorage.getItem("uid") !== null) {
+            try {
+                let postsArr = [];
+                const res = await getDocs(postsRef);
+                res.docs.forEach((e) => {
+                    postsArr.push({ ...e.data(), id: e.id });
+                })
+                setPosts(postsArr);
+            } catch (e) { console.log(e) }
         }
         else {
             alert("Sign in")
             navigate("/signup");
         }
-    }, [user]);
+    }, [localStorage.getItem("uid")]);
     return (
         <div className="homepage-container">
             <Sidebar />
@@ -36,7 +42,9 @@ export default function BookmarkPage() {
                         <div>
                             {
                                 posts.map((post) => {
-                                    return <Post post={post} key={post._id} />
+                                    if (user.bookmarks.includes(post.id)) {
+                                        return <div key={post.id}> <Post post={post} /> </div>
+                                    }
                                 })
                             }
                         </div>

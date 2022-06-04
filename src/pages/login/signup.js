@@ -9,8 +9,7 @@ export default function Signup() {
     const [username, setUsername] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [firstName, setFirstName] = useState();
-    const [lastName, setLastName] = useState();
+    const [fullName, setFullName] = useState();
     const [checkTerms, setCheckTerms] = useState(false);
     const { SignupUser } = useAuth();
     const toggleCheck = (e) => {
@@ -23,7 +22,7 @@ export default function Signup() {
         }
         else {
             if (checkTerms) {
-                if (SignupUser(firstName, lastName, username, email, password) !== null) {
+                if (SignupUser(fullName, username, email, password) !== null) {
                     navigate("/explore");
                 }
             } else {
@@ -41,11 +40,7 @@ export default function Signup() {
                     <form>
                         <div className="input-container">
                             <br />
-                            <input required onChange={e => setFirstName(e.target.value)} className="text-input" type="text" placeholder="Enter first name" />
-                        </div>
-                        <div className="input-container">
-                            <br />
-                            <input required onChange={e => setLastName(e.target.value)} className="text-input" type="text" placeholder="Enter last name" />
+                            <input required onChange={e => setFullName(e.target.value)} className="text-input" type="text" placeholder="Enter full name" />
                         </div>
                         <div className="input-container">
                             <br />

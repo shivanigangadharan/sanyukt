@@ -2,12 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { makeServer } from "./server";
 import { AuthProvider } from "./context/authContext";
 import { StateProvider } from "./context/stateContext";
 
 // Call make Server
-makeServer();
+// makeServer();
 
 ReactDOM.render(
   <React.StrictMode>
