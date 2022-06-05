@@ -38,15 +38,31 @@
 .profile-numbers{
     display: flex;
     justify-content: space-between;
+    gap: 20px;
     background: white;
     width: max-content;
     text-align: center;
     padding: 1.5rem 2rem;
     font-size: 1.15rem;
-    width: 40%;
     margin-top: 2%;
 }
 .profile-numbers>*{
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+}
+.follow-container{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background: white;
+    padding: 0rem 2rem 1.5rem 2rem;
+    margin-top: 2rem;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px 1px lightgrey;
+}
+.follow-title{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }

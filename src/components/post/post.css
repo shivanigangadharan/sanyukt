@@ -9,6 +9,7 @@
     background: white;
     height: max-content;
     margin-top: 2%;
+    box-shadow: 1px 1px 3px 1px lightgrey;
 }
 .post-title{
     display: flex;

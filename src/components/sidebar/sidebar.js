@@ -16,8 +16,9 @@ export default function Sidebar() {
         }
     }, [user]);
 
-    const handleLogout = async () => {
-        const res = await LogoutUser();
+    const handleLogout = () => {
+        LogoutUser();
+        navigate("/")
     }
 
     return (
@@ -26,7 +27,7 @@ export default function Sidebar() {
                 <Link to="/homepage"><span><i className="fa-solid fa-house"></i> Home</span></Link>
                 <Link to="/explore"><span><i className="fa-solid fa-rocket"></i> Explore</span></Link>
                 <Link to="/bookmarks"><span><i className="fa-solid fa-bookmark"></i> Bookmarks</span></Link>
-                <Link to="/notifications"><span><i className="fa-solid fa-bell"></i> Notifications </span></Link>
+                {/* <Link to="/notifications"><span><i className="fa-solid fa-bell"></i> Notifications </span></Link> */}
                 <Link to="/profile"><span><i className="fa-solid fa-circle-user"></i> Profile </span></Link>
                 <span onClick={handleLogout}><i className="fa-solid fa-arrow-right-from-bracket"></i> Logout </span>
                 <button className="btn create-post-btn"> Create new post </button>

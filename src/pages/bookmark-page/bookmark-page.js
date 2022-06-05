@@ -7,14 +7,25 @@ import '../../styles.css';
 import { useAuth } from '../../context/authContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { db, postsRef } from '../../firebase';
+import { db, postsRef, usersRef } from '../../firebase';
 import { query, collection, where, getDocs } from '@firebase/firestore';
 
 export default function BookmarkPage() {
     const { user, encodedToken } = useAuth();
     const [postIDs, setPostIDs] = useState([]);
     const [posts, setPosts] = useState([]);
+    const [users, setUsers] = useState([]);
+
     const navigate = useNavigate();
+
+    const fetchUsers = async () => {
+        const res = await getDocs(usersRef);
+        let allUsers = [];
+        res.forEach((doc) => {
+            allUsers.push({ ...doc.data(), id: doc.id });
+        })
+        setUsers(allUsers);
+    }
 
     useEffect(async () => {
         if (localStorage.getItem("uid") !== null) {
@@ -25,6 +36,7 @@ export default function BookmarkPage() {
                     postsArr.push({ ...e.data(), id: e.id });
                 })
                 setPosts(postsArr);
+                fetchUsers();
             } catch (e) { console.log(e) }
         }
         else {
@@ -50,7 +62,13 @@ export default function BookmarkPage() {
                         </div>
                 }
             </div>
-            <FollowThem />
+            <div className="follow-them-grid">
+                {
+                    users.map((user) => {
+                        return <FollowThem userObj={user} key={user.id} />
+                    })
+                }
+            </div>
         </div>
     )
 }
