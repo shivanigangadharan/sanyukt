@@ -12,9 +12,6 @@ export default function FollowThem({ userObj }) {
 
     const addToFollowing = async () => {
         try {
-            console.log(uid);
-            console.log(user.following[2]);
-            console.log(user.following[2] === uid)
             const userRef = doc(db, `users/${user.id}`);
             const res = await updateDoc(userRef, {
                 following: arrayUnion(uid)
@@ -27,9 +24,7 @@ export default function FollowThem({ userObj }) {
     }
 
     const addToFollowers = async () => {
-        console.log('add to followers called')
         try {
-            console.log("Adding followers in ", fullName);
             const userRef = doc(db, `users/${id}`);
             const res = await updateDoc(userRef, {
                 followers: arrayUnion(user.uid)
@@ -65,17 +60,13 @@ export default function FollowThem({ userObj }) {
     }
 
     const handleFollowClick = () => {
-
         if (user.following.includes(uid)) {
-            console.log("Calling removes");
             removeFromFollowers();
             removeFromFollowing();
         } else {
-            console.log("calling adds")
             addToFollowers();
             addToFollowing();
         }
-
     }
 
     return (
