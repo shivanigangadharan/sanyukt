@@ -1,8 +1,8 @@
 .follow-them-container{
     background: white;
-    width: 25%;
-    height: max-content;
+    width: 100%;
     padding: 1rem;
+    margin-top: 1.25rem;
 }
 .follow-them-title{
     display: flex;
@@ -11,4 +11,23 @@
 }
 .red-text{
     color: var(--red);
+}
+.follow-btn{
+    border: 1px solid var(--red);
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+}
+.follow-btn:hover{
+    background: var(--red);
+    color: white;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+.followed-btn{
+    border: 1px solid var(--red);
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    background: var(--red);
+    color: white;
+    cursor: pointer;
 }

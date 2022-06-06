@@ -37,6 +37,8 @@ export const AuthProvider = ({ children }) => {
                 likes: [],
                 followers: [],
                 following: [],
+                bio: "Enter a short and suitable bio for yourself.",
+                portfolioURL: "enteryourPortfolio@url.com",
                 uid: uid
             });
             setUserInLocalStorage(uid);

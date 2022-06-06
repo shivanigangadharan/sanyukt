@@ -2,11 +2,12 @@
     display: flex;
     background: var(--background-grey);
     text-align: left;
-    padding: 2rem 2rem;
+    padding: 2rem 5rem;
     height: 100vh;
     justify-content: space-between;
     box-sizing: border-box;
 }
 .homepage-content{
     margin-left: 18rem;
+    width: 50%;
 }

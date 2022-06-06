@@ -12,7 +12,7 @@ import { getDocs, addDoc, query, collection, where } from '@firebase/firestore';
 export default function ExplorePage() {
     const { user } = useAuth();
     const [posts, setPosts] = useState([]);
-
+    const [users, setUsers] = useState([]);
     const fetchPosts = async () => {
         const res = await getDocs(postsRef);
         let posts = [];
@@ -22,8 +22,18 @@ export default function ExplorePage() {
         setPosts(posts);
     }
 
+    const fetchUsers = async () => {
+        const res = await getDocs(usersRef);
+        let allUsers = [];
+        res.forEach((doc) => {
+            allUsers.push({ ...doc.data(), id: doc.id });
+        })
+        setUsers(allUsers);
+    }
+
     useEffect(async () => {
         fetchPosts();
+        fetchUsers();
     }, [user]);
 
     const handleAddPost = async () => {
@@ -59,7 +69,13 @@ export default function ExplorePage() {
                 <span onClick={handleAddPost}> <button> Add a test post </button> </span>
 
             </div>
-            <FollowThem />
+            <div className="follow-them-grid">
+                {
+                    users.map((user) => {
+                        return <FollowThem userObj={user} key={user.id} />
+                    })
+                }
+            </div>
         </div>
     )
 }
