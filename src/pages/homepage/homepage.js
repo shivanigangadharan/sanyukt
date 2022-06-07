@@ -60,7 +60,8 @@ export default function Homepage() {
                 fullName: user.fullName,
                 username: user.username,
                 uid: JSON.parse(localStorage.getItem("uid")),
-                imgURL: url
+                imgURL: url,
+                likes: 0
             });
             fetchPosts();
         } catch (e) { console.log(e) }
