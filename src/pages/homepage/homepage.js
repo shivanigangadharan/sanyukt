@@ -86,10 +86,10 @@ export default function Homepage() {
                         <img src={file && URL.createObjectURL(file)} className="img-preview" />
                         <div className="create-post-section">
                             <div className="create-post-icons">
-                                {/* <span><i className="fa-regular fa-image"></i></span> */}
-                                <input type="file" onChange={(e) => { setFile(e.target.files[0]) }} />
-                                {/* <span><i className="fa-solid fa-upload"></i></span>
-                                <span><i className="fa-solid fa-face-grin-beam"></i></span> */}
+                                <label htmlFor="post-img">
+                                    <span><i className="fa-regular fa-image"></i></span>
+                                </label>
+                                <input id="post-img" type="file" onChange={(e) => { setFile(e.target.files[0]) }} />
                             </div>
                             <button className="btn post-btn" onClick={handleAddPost}>Post </button>
                         </div>
