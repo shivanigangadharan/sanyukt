@@ -5,8 +5,12 @@
     padding: 2rem 5rem;
     justify-content: space-between;
     box-sizing: border-box;
+    min-height: 100vh;
 }
 .homepage-content{
     margin-left: 18rem;
     width: 50%;
+}
+.img-preview{
+    max-width: 100%;
 }
