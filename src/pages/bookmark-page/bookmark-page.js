@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/sidebar/sidebar';
-import CreatePost from '../../components/create-post/create-post';
 import Post from '../../components/post/post';
 import FollowThem from '../../components/follow-them/follow-them';
 import '../../styles.css';
@@ -64,8 +63,10 @@ export default function BookmarkPage() {
             </div>
             <div className="follow-them-grid">
                 {
-                    users.map((user) => {
-                        return <FollowThem userObj={user} key={user.id} />
+                    users.map((usr) => {
+                        if (user.uid !== usr.uid) {
+                        return <FollowThem userObj={usr} key={usr.id} />
+                        }
                     })
                 }
             </div>

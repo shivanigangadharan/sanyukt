@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../components/sidebar/sidebar';
-import CreatePost from '../../components/create-post/create-post';
 import Post from '../../components/post/post';
 import FollowThem from '../../components/follow-them/follow-them';
 import '../../styles.css';

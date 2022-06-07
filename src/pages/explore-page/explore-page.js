@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/sidebar/sidebar';
-import CreatePost from '../../components/create-post/create-post';
 import Post from '../../components/post/post';
 import FollowThem from '../../components/follow-them/follow-them';
 import '../../styles.css';
@@ -36,19 +35,6 @@ export default function ExplorePage() {
         fetchUsers();
     }, [user]);
 
-    const handleAddPost = async () => {
-        try {
-            const res = await addDoc(postsRef, {
-                title: "A test sample post",
-                content: "Some content for sample post.",
-                fullName: user.fullName,
-                username: user.username,
-                uid: JSON.parse(localStorage.getItem("uid"))
-            });
-            fetchPosts();
-        } catch (e) { console.log(e) }
-    }
-
     return (
         <div className="homepage-container">
             <Sidebar />
@@ -66,13 +52,14 @@ export default function ExplorePage() {
                         return <Post post={post} key={post.id} />
                     })
                 }
-                <span onClick={handleAddPost}> <button> Add a test post </button> </span>
 
             </div>
             <div className="follow-them-grid">
                 {
-                    users.map((user) => {
-                        return <FollowThem userObj={user} key={user.id} />
+                    users.map((usr) => {
+                        if (user.uid !== usr.uid) {
+                            return <FollowThem userObj={usr} key={usr.id} />
+                        }
                     })
                 }
             </div>

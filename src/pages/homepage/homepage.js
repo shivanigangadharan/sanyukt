@@ -3,27 +3,25 @@ import '../../styles.css';
 import './homepage.css';
 import Sidebar from '../../components/sidebar/sidebar';
 import Post from '../../components/post/post';
-import CreatePost from '../../components/create-post/create-post';
 import FollowThem from '../../components/follow-them/follow-them';
 import { useAuth } from '../../context/authContext';
-import { getDocs } from '@firebase/firestore';
+import { getDocs, addDoc } from '@firebase/firestore';
 import { postsRef, usersRef } from '../../firebase';
+import avatar from '../../assets/defaultImg.png';
 
 export default function Homepage() {
     const { user } = useAuth();
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
+    const [postContent, setPostContent] = useState(null);
 
     const fetchPosts = async () => {
         const res = await getDocs(postsRef);
         let posts = [];
         res.forEach((doc) => {
-            console.log('following: ', user.following);
             if (user.following.includes(doc.data().uid)) {
-                console.log(doc.data().uid);
                 posts.push({ ...doc.data(), id: doc.id });
             }
-
         });
         setPosts(posts);
     }
@@ -42,11 +40,41 @@ export default function Homepage() {
         fetchUsers();
     }, [user]);
 
+    const handleAddPost = async () => {
+        if (postContent === null) {
+            alert("Please add some content to post.");
+        } else {
+            try {
+                const res = await addDoc(postsRef, {
+                    content: postContent,
+                    fullName: user.fullName,
+                    username: user.username,
+                    uid: JSON.parse(localStorage.getItem("uid"))
+                });
+                fetchPosts();
+            } catch (e) { console.log(e) }
+        }
+
+    }
+
     return (
         <div className="homepage-container">
             <Sidebar />
             <div className="homepage-content">
-                <CreatePost />
+                <div className="create-post-container">
+                    <img className="avatar" src={avatar} alt="user-avatar" />
+                    <div className="create-post-content">
+                        <textarea onChange={(e) => { setPostContent(e.target.value); console.log(postContent) }} placeholder="Write something fun here, to post..." className="create-post-input"></textarea>
+                        <div className="create-post-section">
+                            <div className="create-post-icons">
+                                <span><i className="fa-regular fa-image"></i></span>
+                                <span><i className="fa-solid fa-upload"></i></span>
+                                <span><i className="fa-solid fa-face-grin-beam"></i></span>
+                            </div>
+                            <button className="btn post-btn" onClick={handleAddPost}>Post </button>
+                        </div>
+                    </div>
+                </div>
                 <h3> Latest posts</h3>
                 {
                     posts.map((post) => {
@@ -56,10 +84,13 @@ export default function Homepage() {
             </div>
             <div className="follow-them-grid">
                 {
-                    users.map((user) => {
-                        return <FollowThem userObj={user} key={user.id} />
+                    users.map((usr) => {
+                        if (user.uid !== usr.uid) {
+                            return <FollowThem userObj={usr} key={usr.id} />
+                        }
                     })
                 }
-            </div>        </div>
+            </div>
+        </div>
     )
 }
