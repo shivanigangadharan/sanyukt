@@ -43,7 +43,7 @@ export default function ExplorePage() {
                 content: "Some content for sample post.",
                 fullName: user.fullName,
                 username: user.username,
-                uid: localStorage.getItem("uid")
+                uid: JSON.parse(localStorage.getItem("uid"))
             });
             fetchPosts();
         } catch (e) { console.log(e) }
