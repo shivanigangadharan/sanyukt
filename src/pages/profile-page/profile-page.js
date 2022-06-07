@@ -6,15 +6,38 @@ import '../../styles.css';
 import './profile-page.css';
 import profilePic from '../../assets/defaultImg.png';
 import { useAuth } from '../../context/authContext';
-import { getDocs } from '@firebase/firestore';
-import { usersRef, postsRef } from '../../firebase';
+import { getDocs, doc, updateDoc } from '@firebase/firestore';
+import { usersRef, postsRef, db } from '../../firebase';
+import { Modal, Box, Typography } from '@mui/material';
 
 export default function ProfilePage() {
     const { user, setUser } = useAuth();
     const [users, setUsers] = useState([]);
     const [posts, setPosts] = useState([]);
     const [display, setDisplay] = useState("following");
+    const [open, setOpen] = useState(false);
 
+    const [fullName, setFullName] = useState(user.fullName);
+    const [username, setUsername] = useState(user.username);
+    const [bio, setBio] = useState(user.bio);
+    const [portfolioURL, setPortfolioURL] = useState(user.portfolioURL);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1.5rem',
+        p: 4,
+        padding: '2rem'
+    };
     const fetchUsers = async () => {
         const res = await getDocs(usersRef);
         let allUsers = [];
@@ -35,6 +58,34 @@ export default function ProfilePage() {
         setPosts(allPosts);
     }
 
+    const handleSave = async () => {
+        handleClose();
+        try {
+            const userRef = doc(db, `users/${user.id}`);
+            const res = await updateDoc(userRef, {
+                fullName: fullName,
+                username: username,
+                bio: bio,
+                portfolioURL: portfolioURL
+            })
+            setUser({
+                ...user,
+                fullName: fullName,
+                username: username,
+                bio: bio,
+                portfolioURL: portfolioURL
+            });
+            localStorage.setItem("user", JSON.stringify(
+                {
+                    ...user,
+                    fullName: fullName,
+                    username: username,
+                    bio: bio,
+                    portfolioURL: portfolioURL
+                }
+            ));
+        } catch (e) { console.log(e) }
+    }
     useEffect(async () => {
         fetchUsers();
         fetchPosts();
@@ -49,7 +100,7 @@ export default function ProfilePage() {
                         <div><img alt="profile-pic" src={profilePic} className="profile-pic" /></div>
                         <span className="name"> {user.fullName} </span>
                         <span className="username"> @{user.username} </span>
-                        <button className="edit-profile-btn"> Edit profile </button>
+                        <button className="edit-profile-btn" onClick={handleOpen}> Edit profile </button>
                         <span className="bio"> {user.bio} </span>
                         <a target="_blank" href={user.portfolioURL} className="bio red-text"> {user.portfolioURL} </a>
                     </div>
@@ -69,6 +120,38 @@ export default function ProfilePage() {
                         </div>
                     </div>
                 </center>
+
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <center><h2> Edit Profile </h2></center>
+                        <div className="modal-ip-div">
+                            <b> Name </b>
+                            <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                        </div>
+                        <div className="modal-ip-div">
+                            <b> Username </b>
+                            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                        </div>
+                        <div className="modal-ip-div">
+                            <b> Bio </b>
+                            <input type="text" value={bio} onChange={(e) => setBio(e.target.value)} />
+                        </div>
+                        <div className="modal-ip-div">
+                            <b> Portfolio Link </b>
+                            <input type="text" value={portfolioURL} onChange={(e) => setPortfolioURL(e.target.value)} />
+                        </div>
+                        <div className="modal-options">
+                            <button className="btn post-btn" onClick={handleClose}> Cancel </button>
+                            <button className="btn post-btn" onClick={handleSave}> Save </button>
+                        </div>
+                    </Box>
+
+                </Modal>
 
                 <div hidden={display === "following" ? false : true}>
                     <h2> Following </h2>
