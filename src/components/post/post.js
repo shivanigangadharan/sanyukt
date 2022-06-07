@@ -14,7 +14,7 @@ export default function Post({ post }) {
     const { dispatch } = useStateContext();
     const [comments, setComments] = useState([]);
     const [bookmarked, setBookmarked] = useState(false);
-    const { content, title, likes, id, email, username, fullName } = post;
+    const { content, likes, id, email, username, fullName, imgURL } = post;
     const navigate = useNavigate();
 
     const addBookmark = async () => {
@@ -70,6 +70,7 @@ export default function Post({ post }) {
                 <div>
                     {content}
                 </div>
+                <img src={imgURL} className="img-preview"/>
                 <div className="post-icons">
                     <span> <i className="fa-regular fa-heart"></i> <span style={{ 'fontSize': '1rem' }}> {likes} </span></span>
                     <span> <i className="fa-regular fa-comment"></i> </span>

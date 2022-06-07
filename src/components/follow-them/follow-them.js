@@ -71,10 +71,6 @@ export default function FollowThem({ userObj }) {
 
     return (
         <div className="follow-them-container">
-            <div className="follow-them-title">
-                <span><b> Who to follow</b> </span>
-                <span className="red-text"> Show more </span>
-            </div>
             <div className="user-avatar-container">
                 <div className="user-avatar-content">
                     <img className="avatar" src={avatar} alt="avatar" />

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../components/sidebar/sidebar';
-import CreatePost from '../../components/create-post/create-post';
 import Post from '../../components/post/post';
 import FollowThem from '../../components/follow-them/follow-them';
 import '../../styles.css';
@@ -29,7 +28,9 @@ export default function ProfilePage() {
         const res = await getDocs(postsRef);
         let allPosts = [];
         res.forEach((doc) => {
-            allPosts.push({ ...doc.data(), id: doc.id });
+            if (doc.data().uid === user.uid) {
+                allPosts.push({ ...doc.data(), id: doc.id });
+            }
         })
         setPosts(allPosts);
     }
@@ -59,7 +60,7 @@ export default function ProfilePage() {
                             <span> Following </span>
                         </div>
                         <div onClick={() => setDisplay("posts")}>
-                            <span><b> {user.posts.length} </b></span>
+                            <span><b> {posts.length} </b></span>
                             <span> Posts </span>
                         </div>
                         <div onClick={() => setDisplay("followers")}>
