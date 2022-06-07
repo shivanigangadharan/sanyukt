@@ -30,3 +30,28 @@
     color: var(--primary);
     cursor: pointer;
 }
+.write-comment{
+    display: flex;
+    margin-bottom: 1.5rem;
+    background: var(--background-grey);
+    padding: 0.5rem 1rem;
+    align-items: center;
+}
+.write-comment input{
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: var(--background-grey);
+    outline: none;
+}
+.write-comment i{
+    font-size: 1.5rem;
+    color: var(--primary);
+    background: var(--background-grey);
+    padding: 1rem;
+}
+.write-comment i:hover{
+    background: lightgrey;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}

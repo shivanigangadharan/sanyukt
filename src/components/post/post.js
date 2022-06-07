@@ -4,14 +4,17 @@ import '../../styles.css';
 import avatar from '../../assets/defaultImg.png';
 import { useAuth } from '../../context/authContext';
 import { useStateContext } from '../../context/stateContext';
-import { usersRef, db } from '../../firebase';
-import { updateDoc, arrayUnion, collection, doc, arrayRemove, increment } from '@firebase/firestore';
+import { usersRef, db, commentsRef } from '../../firebase';
+import { updateDoc, arrayUnion, collection, doc, arrayRemove, increment, getDocs, addDoc } from '@firebase/firestore';
 import { useNavigate } from 'react-router';
+import Comment from '../comment/comment';
 
 export default function Post({ post }) {
-    const { user, setUser, encodedToken } = useAuth();
+    const { user, setUser } = useAuth();
     const { dispatch } = useStateContext();
     const [comments, setComments] = useState([]);
+    const [comment, setComment] = useState();
+    const [showComments, setShowComments] = useState(false);
     const [bookmarked, setBookmarked] = useState(false);
     const { content, likes, id, email, username, fullName, imgURL } = post;
     const navigate = useNavigate();
@@ -129,6 +132,38 @@ export default function Post({ post }) {
         }
     }
 
+    const fetchComments = async () => {
+        try {
+            let commentsArr = [];
+            const res = await getDocs(commentsRef);
+            res.docs.forEach((e) => {
+                if (e.data().postID === id) {
+                    commentsArr.push({ ...e.data() });
+                }
+            });
+            setComments(commentsArr)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const addComment = async () => {
+        try {
+            const res = await addDoc(commentsRef, {
+                comment: comment,
+                fullName: user.fullName,
+                postID: id,
+                uid: JSON.parse(localStorage.getItem("uid")),
+            });
+            setComment("")
+            fetchComments();
+        } catch (e) { console.log(e) }
+    }
+
+    useEffect(() => {
+        fetchComments();
+    }, [user]);
+
     return (
         <div className="post-container">
             <img className="avatar" src={avatar} alt="user-avatar" />
@@ -154,7 +189,10 @@ export default function Post({ post }) {
                         </div>
                     }
 
-                    <span> <i className="fa-regular fa-comment"></i> </span>
+                    <span onClick={() => setShowComments(!showComments)}> <i className="fa-regular fa-comment"></i>
+                        <span style={{ 'fontSize': '1rem' }}> {comments.length} </span>
+
+                    </span>
                     <span> <i className="fa-regular fa-share-from-square"></i> </span>
                     {user && user.bookmarks.includes(id) ?
                         <div>
@@ -163,6 +201,18 @@ export default function Post({ post }) {
                         <div>
                             <span onClick={handleBookmarkClick}> <i className="fa-regular fa-bookmark"></i> </span>
                         </div>
+                    }
+                </div>
+                <div hidden={showComments ? false : true}>
+                    <div className="write-comment">
+                        <img src={avatar} className="avatar" />
+                        <input value={comment} type="text" onChange={(e) => setComment(e.target.value)} placeholder="Write a comment..." />
+                        <i onClick={addComment} className="fa-solid fa-play"></i>
+                    </div>
+                    {
+                        comments.map((cmt) => {
+                            return <div key={cmt.id}><Comment details={cmt} /></div>
+                        })
                     }
                 </div>
             </div>
