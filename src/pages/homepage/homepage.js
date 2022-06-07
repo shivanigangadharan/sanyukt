@@ -61,7 +61,8 @@ export default function Homepage() {
                 username: user.username,
                 uid: JSON.parse(localStorage.getItem("uid")),
                 imgURL: url,
-                likes: 0
+                likes: 0,
+                profilepic: user.profilepic
             });
             fetchPosts();
         } catch (e) { console.log(e) }
@@ -81,7 +82,7 @@ export default function Homepage() {
             <Sidebar />
             <div className="homepage-content">
                 <div className="create-post-container">
-                    <img className="avatar" src={avatar} alt="user-avatar" />
+                    <img alt="profile-pic" src={user.profilepic} className="avatar" />
                     <div className="create-post-content">
                         <textarea onChange={(e) => { setPostContent(e.target.value); }} placeholder="Write something fun here, to post..." className="create-post-input"></textarea>
                         <img src={file && URL.createObjectURL(file)} className="img-preview" />

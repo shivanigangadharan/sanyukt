@@ -16,7 +16,7 @@ export default function Post({ post }) {
     const [comment, setComment] = useState();
     const [showComments, setShowComments] = useState(false);
     const [bookmarked, setBookmarked] = useState(false);
-    const { content, likes, id, email, username, fullName, imgURL } = post;
+    const { content, likes, id, email, username, fullName, imgURL, profilepic } = post;
     const navigate = useNavigate();
 
     const addBookmark = async () => {
@@ -154,6 +154,7 @@ export default function Post({ post }) {
                 fullName: user.fullName,
                 postID: id,
                 uid: JSON.parse(localStorage.getItem("uid")),
+                profilepic: user.profilepic
             });
             setComment("")
             fetchComments();
@@ -166,7 +167,7 @@ export default function Post({ post }) {
 
     return (
         <div className="post-container">
-            <img className="avatar" src={avatar} alt="user-avatar" />
+            <img className="avatar" src={profilepic} alt="user-avatar" />
             <div className="post-content">
                 <div className="post-title">
                     <b>{fullName}</b>
@@ -205,7 +206,7 @@ export default function Post({ post }) {
                 </div>
                 <div hidden={showComments ? false : true}>
                     <div className="write-comment">
-                        <img src={avatar} className="avatar" />
+                        <img alt="profile-pic" src={user.profilepic} className="avatar" />
                         <input value={comment} type="text" onChange={(e) => setComment(e.target.value)} placeholder="Write a comment..." />
                         <i onClick={addComment} className="fa-solid fa-play"></i>
                     </div>

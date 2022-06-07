@@ -6,6 +6,8 @@ import {
 } from 'firebase/auth';
 import { addDoc, setDoc, doc, getDoc, getDocs } from '@firebase/firestore';
 import { usersRef, db, userRef } from '../firebase';
+import avatar from '../assets/defaultImg.png';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -39,7 +41,8 @@ export const AuthProvider = ({ children }) => {
                 following: [],
                 bio: "Enter a short and suitable bio for yourself.",
                 portfolioURL: "enteryourPortfolio@url.com",
-                uid: uid
+                uid: uid,
+                profilepic: "https://res.cloudinary.com/dqpanoobq/image/upload/v1654634630/Social%20Media/defaultImg_j01icd.png",
             });
             setUserInLocalStorage(uid);
         }
