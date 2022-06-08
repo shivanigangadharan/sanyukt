@@ -20,6 +20,7 @@ export default function Post({ post }) {
     const [bookmarked, setBookmarked] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
     const { content, likes, id, email, username, fullName, imgURL, profilepic, uid } = post;
+    const [postLikes, setPostLikes] = useState(likes);
     const navigate = useNavigate();
 
     const addBookmark = async () => {
@@ -100,7 +101,8 @@ export default function Post({ post }) {
             const postRef = doc(db, `posts/${id}`);
             const res = await updateDoc(postRef, {
                 likes: increment(1)
-            })
+            });
+            setPostLikes(postLikes + 1);
         }
         catch (e) {
             console.log(e);
@@ -112,7 +114,8 @@ export default function Post({ post }) {
             const postRef = doc(db, `posts/${id}`);
             const res = await updateDoc(postRef, {
                 likes: increment(-1)
-            })
+            });
+            setPostLikes(postLikes - 1);
         }
         catch (e) {
             console.log(e);
@@ -249,11 +252,11 @@ export default function Post({ post }) {
                     {user && user.likes.includes(id) ?
                         <div>
                             <span onClick={handleLikeClick}> <i className="fa-solid fa-heart"></i> </span>
-                            <span style={{ 'fontSize': '1rem' }}> {likes} </span>
+                            <span style={{ 'fontSize': '1rem' }}> {postLikes} </span>
                         </div> :
                         <div>
                             <span onClick={handleLikeClick}> <i className="fa-regular fa-heart"></i>
-                                <span style={{ 'fontSize': '1rem' }}> {likes} </span>
+                                <span style={{ 'fontSize': '1rem' }}> {postLikes} </span>
                             </span>
                         </div>
                     }

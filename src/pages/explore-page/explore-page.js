@@ -12,6 +12,14 @@ export default function ExplorePage() {
     const { user } = useAuth();
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
+
+    const sortByLikes = () => {
+        // setPosts(posts.sort((a, b) => { return b.likes - a.likes }));
+        setPosts((post) => [...post.sort((a, b) => { return b.likes - a.likes })]);
+        //decrement likes not working
+        // console.log(posts.sort((a, b) => { return b.likes - a.likes }))
+    }
+
     const fetchPosts = async () => {
         const res = await getDocs(postsRef);
         let posts = [];
@@ -33,7 +41,7 @@ export default function ExplorePage() {
     useEffect(async () => {
         fetchPosts();
         fetchUsers();
-    }, [user]);
+    }, []);
 
     return (
         <div className="homepage-container">
@@ -42,7 +50,7 @@ export default function ExplorePage() {
                 <h3> Explore </h3>
                 <div className="explore-categories">
                     <button> For you </button>
-                    <button> Trending </button>
+                    <button onClick={sortByLikes}> Trending </button>
                     <button> Technology </button>
                     <button> Self care </button>
                     <button> World </button>
