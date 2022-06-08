@@ -95,7 +95,7 @@ export default function Homepage() {
                 <div className="create-post-container">
                     <img alt="profile-pic" src={user.profilepic} className="avatar" />
                     <div className="create-post-content">
-                        <textarea value={postContent} onChange={(e) => { setPostContent(e.target.value); }} placeholder="Write something fun here, to post..." className="create-post-input"></textarea>
+                        <textarea value={postContent} onChange={(e) => setPostContent(e.target.value)} placeholder="Write something fun here, to post..." className="create-post-input"></textarea>
                         <img src={file && URL.createObjectURL(file)} className="img-preview" />
                         <div className="create-post-section">
                             <div className="create-post-icons">
