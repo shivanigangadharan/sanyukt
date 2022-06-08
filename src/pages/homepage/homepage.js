@@ -17,7 +17,6 @@ export default function Homepage() {
     const [users, setUsers] = useState([]);
     const [postContent, setPostContent] = useState(null);
     const [file, setFile] = useState(null);
-    const [dateObj, setDateObj] = useState();
 
     const fetchPosts = async () => {
         const res = await getDocs(postsRef);
@@ -28,14 +27,6 @@ export default function Homepage() {
             }
         });
         setPosts(posts);
-    }
-
-    const createDate = () => {
-        const date = new Date();
-        const currentDate = date.toDateString().split(' ').slice(1).join(' ');
-        const time = date.toTimeString().split(' ').slice(0, 1).join(' ');
-        console.log(currentDate + ' ' + time);
-        return currentDate + ' ' + time;
     }
 
     const fetchUsers = async () => {
@@ -64,14 +55,12 @@ export default function Homepage() {
                 data.append("upload_preset", "madhunter");
                 data.append("cloud_name", "dqpanoobq");
                 const res = await axios.post("https://api.cloudinary.com/v1_1/dqpanoobq/image/upload", data);
-
                 sendPostContent(res.data.url, createDate);
             } catch (e) { console.log(e) }
         }
     }
 
     const sendPostContent = async (url, dateObj) => {
-        const date = new Date();
         try {
             const res = await addDoc(postsRef, {
                 content: postContent,
@@ -119,7 +108,7 @@ export default function Homepage() {
                         </div>
                     </div>
                 </div>
-                <h3 onClick={createDate}> Posts for you</h3>
+                <h3> Posts for you</h3>
                 {
                     posts.map((post) => {
                         return <Post post={post} key={post.id} />
