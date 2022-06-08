@@ -5,7 +5,7 @@ import Sidebar from '../../components/sidebar/sidebar';
 import Post from '../../components/post/post';
 import FollowThem from '../../components/follow-them/follow-them';
 import { useAuth } from '../../context/authContext';
-import { getDocs, addDoc } from '@firebase/firestore';
+import { getDocs, addDoc, Timestamp } from '@firebase/firestore';
 import { postsRef, usersRef } from '../../firebase';
 import avatar from '../../assets/defaultImg.png';
 import { CloudinaryContext, Image } from 'cloudinary-react';
@@ -16,13 +16,13 @@ export default function Homepage() {
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
     const [postContent, setPostContent] = useState(null);
-    const [file, setFile] = useState();
+    const [file, setFile] = useState(null);
 
     const fetchPosts = async () => {
         const res = await getDocs(postsRef);
         let posts = [];
         res.forEach((doc) => {
-            if (user.following.includes(doc.data().uid)) {
+            if (user.following.includes(doc.data().uid) || doc.data().uid === user.uid) {
                 posts.push({ ...doc.data(), id: doc.id });
             }
         });
@@ -44,16 +44,23 @@ export default function Homepage() {
     }, [user]);
 
     const postImage = async () => {
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "madhunter");
-        data.append("cloud_name", "dqpanoobq");
-        const res = await axios.post("https://api.cloudinary.com/v1_1/dqpanoobq/image/upload", data);
-        sendPostContent(res.data.url);
+        if (postContent === null && file === null) {
+            alert("Please either add content or an image to post.");
+        } else if (file === null) {
+            sendPostContent("");
+        } else {
+            try {
+                const data = new FormData();
+                data.append("file", file);
+                data.append("upload_preset", "madhunter");
+                data.append("cloud_name", "dqpanoobq");
+                const res = await axios.post("https://api.cloudinary.com/v1_1/dqpanoobq/image/upload", data);
+                sendPostContent(res.data.url, createDate);
+            } catch (e) { console.log(e) }
+        }
     }
 
-    const sendPostContent = async (url) => {
-
+    const sendPostContent = async (url, dateObj) => {
         try {
             const res = await addDoc(postsRef, {
                 content: postContent,
@@ -62,9 +69,13 @@ export default function Homepage() {
                 uid: JSON.parse(localStorage.getItem("uid")),
                 imgURL: url,
                 likes: 0,
-                profilepic: user.profilepic
+                profilepic: user.profilepic,
+                createdAt: new Timestamp(new Date().getSeconds(), 0)
             });
+            setPostContent("");
+            setFile();
             fetchPosts();
+
         } catch (e) { console.log(e) }
     }
 
@@ -84,7 +95,7 @@ export default function Homepage() {
                 <div className="create-post-container">
                     <img alt="profile-pic" src={user.profilepic} className="avatar" />
                     <div className="create-post-content">
-                        <textarea onChange={(e) => { setPostContent(e.target.value); }} placeholder="Write something fun here, to post..." className="create-post-input"></textarea>
+                        <textarea value={postContent} onChange={(e) => setPostContent(e.target.value)} placeholder="Write something fun here, to post..." className="create-post-input"></textarea>
                         <img src={file && URL.createObjectURL(file)} className="img-preview" />
                         <div className="create-post-section">
                             <div className="create-post-icons">
@@ -97,7 +108,7 @@ export default function Homepage() {
                         </div>
                     </div>
                 </div>
-                <h3> Latest posts</h3>
+                <h3> Posts for you</h3>
                 {
                     posts.map((post) => {
                         return <Post post={post} key={post.id} />

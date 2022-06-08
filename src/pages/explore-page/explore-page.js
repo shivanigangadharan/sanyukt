@@ -12,6 +12,15 @@ export default function ExplorePage() {
     const { user } = useAuth();
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
+
+    const sortByTrending = () => {
+        setPosts((post) => [...post.sort((a, b) => { return b.likes - a.likes })]);
+    }
+
+    const sortByLatest = () => {
+        setPosts((post) => [...post.sort((a, b) => { return b.createdAt - a.createdAt })]);
+    }
+
     const fetchPosts = async () => {
         const res = await getDocs(postsRef);
         let posts = [];
@@ -33,7 +42,7 @@ export default function ExplorePage() {
     useEffect(async () => {
         fetchPosts();
         fetchUsers();
-    }, [user]);
+    }, []);
 
     return (
         <div className="homepage-container">
@@ -41,18 +50,14 @@ export default function ExplorePage() {
             <div className="homepage-content">
                 <h3> Explore </h3>
                 <div className="explore-categories">
-                    <button> For you </button>
-                    <button> Trending </button>
-                    <button> Technology </button>
-                    <button> Self care </button>
-                    <button> World </button>
+                    <button onClick={sortByLatest}> Sort by latest </button>
+                    <button onClick={sortByTrending}> Filter by trending </button>
                 </div>
                 {
                     posts.map((post) => {
                         return <Post post={post} key={post.id} />
                     })
                 }
-
             </div>
             <div className="follow-them-grid">
                 <div className="follow-them-title">
