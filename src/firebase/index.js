@@ -23,4 +23,4 @@ export const db = getFirestore();
 // reference to a particular collection, here, posts.
 export const postsRef = collection(db, "posts");
 export const usersRef = collection(db, "users");
-
+export const commentsRef = collection(db, "comments");

@@ -1,0 +1,10 @@
+.comment-container{
+    background: rgb(241, 241, 241);
+    display: flex;
+    padding: 0.5rem 1rem;
+    gap: 1rem;
+}
+.comment-content{
+    display: flex;
+    flex-direction: column;
+}
