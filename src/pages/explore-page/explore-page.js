@@ -50,8 +50,8 @@ export default function ExplorePage() {
             <div className="homepage-content">
                 <h3> Explore </h3>
                 <div className="explore-categories">
-                    <button onClick={sortByLatest}> Sort by latest </button>
-                    <button onClick={sortByTrending}> Filter by trending </button>
+                    <button onClick={sortByLatest}> Latest </button>
+                    <button onClick={sortByTrending}> Trending </button>
                 </div>
                 {
                     posts.map((post) => {

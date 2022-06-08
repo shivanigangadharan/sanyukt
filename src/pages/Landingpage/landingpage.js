@@ -8,7 +8,7 @@ export default function Landingpage() {
     return (
         <div className="landingpage-container">
             <div className="content">
-                <div> <span className="app-title primary"> Social </span><span className="app-title"> Media</span>
+                <div> <span className="app-title primary"> Sanyukt </span><span className="app-title"> - connected</span>
                 </div>
                 <div className="tag-lines">
                     <span className="highlighted"> FOLLOW </span> PEOPLE AROUND THE GLOBE <br />
