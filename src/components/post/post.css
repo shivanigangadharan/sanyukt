@@ -11,6 +11,13 @@
     margin-top: 2%;
     box-shadow: 1px 1px 3px 1px lightgrey;
 }
+.post-content{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    width: 100%;
+}
 .post-header{
     display: flex;
     gap: 1rem;
@@ -47,12 +54,6 @@
 .post-options>*:hover{
     background: var(--background-grey);
     cursor: pointer;
-}
-.post-content{
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    position: relative;
 }
 .post-icons{
     font-size: 1.25rem;
