@@ -55,12 +55,12 @@ export default function Homepage() {
                 data.append("upload_preset", "madhunter");
                 data.append("cloud_name", "dqpanoobq");
                 const res = await axios.post("https://api.cloudinary.com/v1_1/dqpanoobq/image/upload", data);
-                sendPostContent(res.data.url, createDate);
+                sendPostContent(res.data.url);
             } catch (e) { console.log(e) }
         }
     }
 
-    const sendPostContent = async (url, dateObj) => {
+    const sendPostContent = async (url) => {
         try {
             const res = await addDoc(postsRef, {
                 content: postContent,
