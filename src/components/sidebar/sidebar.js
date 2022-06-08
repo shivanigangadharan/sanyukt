@@ -8,13 +8,7 @@ import { signOut } from 'firebase/auth';
 
 export default function Sidebar() {
     const { user, LogoutUser } = useAuth();
-    const [loggedUser, setLoggedUser] = useState(null);
     const navigate = useNavigate();
-    useEffect(() => {
-        if (user) {
-            setLoggedUser(user);
-        }
-    }, [user]);
 
     const handleLogout = () => {
         LogoutUser();
@@ -34,18 +28,16 @@ export default function Sidebar() {
             </div>
             <div className="user-avatar-container">
                 <div className="user-avatar-content">
-                    <img className="avatar" src={avatar} />
-
+                    {user !== null ?
+                        <img alt="profile-pic" src={user.profilepic} className="avatar" />
+                        : <div></div>}
                     {
-                        loggedUser === null ? <div> </div> : <div>
-                            {loggedUser.firstName} {loggedUser.lastName} <br />
-                            <span className="grey-text"> @{loggedUser.username}</span>
+                        user === null ? <div> </div> : <div>
+                            {user.fullName} <br />
+                            <span className="grey-text"> @{user.username}</span>
                         </div>
                     }
 
-                </div>
-                <div>
-                    <i className="fa-solid fa-ellipsis"></i>
                 </div>
             </div>
         </div>

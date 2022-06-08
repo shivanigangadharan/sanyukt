@@ -58,8 +58,9 @@ export default function ExplorePage() {
                 <div className="follow-them-title">
                     <span><b> Who to follow</b> </span>
                     <span className="red-text"> Show more </span>
-                </div>                {
-                    users.map((usr) => {
+                </div>
+                {
+                    user && users.map((usr) => {
                         if (user.uid !== usr.uid) {
                             return <FollowThem userObj={usr} key={usr.id} />
                         }

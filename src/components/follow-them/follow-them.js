@@ -7,7 +7,7 @@ import { doc, updateDoc, arrayUnion, arrayRemove } from '@firebase/firestore';
 import { db } from '../../firebase';
 
 export default function FollowThem({ userObj }) {
-    const { fullName, username, following, uid, id, followers } = userObj;
+    const { fullName, username, following, uid, id, followers, profilepic } = userObj;
     const { user, setUser } = useAuth();
 
     const addToFollowing = async () => {
@@ -73,7 +73,7 @@ export default function FollowThem({ userObj }) {
         <div className="follow-them-container">
             <div className="user-avatar-container">
                 <div className="user-avatar-content">
-                    <img className="avatar" src={avatar} alt="avatar" />
+                    <img alt="profile-pic" src={profilepic} className="avatar" />
                     <div>
                         {fullName} <br />
                         <span className="grey-text"> @{username} </span>

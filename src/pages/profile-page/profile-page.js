@@ -9,6 +9,7 @@ import { useAuth } from '../../context/authContext';
 import { getDocs, doc, updateDoc } from '@firebase/firestore';
 import { usersRef, postsRef, db } from '../../firebase';
 import { Modal, Box, Typography } from '@mui/material';
+import axios from 'axios';
 
 export default function ProfilePage() {
     const { user, setUser } = useAuth();
@@ -16,11 +17,13 @@ export default function ProfilePage() {
     const [posts, setPosts] = useState([]);
     const [display, setDisplay] = useState("following");
     const [open, setOpen] = useState(false);
+    const [imageFile, setImageFile] = useState();
 
     const [fullName, setFullName] = useState(user.fullName);
     const [username, setUsername] = useState(user.username);
     const [bio, setBio] = useState(user.bio);
     const [portfolioURL, setPortfolioURL] = useState(user.portfolioURL);
+    const [profilepic, setProfilepic] = useState(user.profilepic);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -59,6 +62,15 @@ export default function ProfilePage() {
     }
 
     const handleSave = async () => {
+        const data = new FormData();
+        data.append("file", imageFile);
+        data.append("upload_preset", "madhunter");
+        data.append("cloud_name", "dqpanoobq");
+        const res = await axios.post("https://api.cloudinary.com/v1_1/dqpanoobq/image/upload", data);
+        postData(res.data.url);
+    }
+
+    const postData = async (url) => {
         handleClose();
         try {
             const userRef = doc(db, `users/${user.id}`);
@@ -66,14 +78,16 @@ export default function ProfilePage() {
                 fullName: fullName,
                 username: username,
                 bio: bio,
-                portfolioURL: portfolioURL
+                portfolioURL: portfolioURL,
+                profilepic: url
             })
             setUser({
                 ...user,
                 fullName: fullName,
                 username: username,
                 bio: bio,
-                portfolioURL: portfolioURL
+                portfolioURL: portfolioURL,
+                profilepic: url
             });
             localStorage.setItem("user", JSON.stringify(
                 {
@@ -81,7 +95,8 @@ export default function ProfilePage() {
                     fullName: fullName,
                     username: username,
                     bio: bio,
-                    portfolioURL: portfolioURL
+                    portfolioURL: portfolioURL,
+                    profilepic: url
                 }
             ));
         } catch (e) { console.log(e) }
@@ -97,7 +112,7 @@ export default function ProfilePage() {
             <div className="homepage-content">
                 <center>
                     <div className="profile-content">
-                        <div><img alt="profile-pic" src={profilePic} className="profile-pic" /></div>
+                        <div><img alt="profile-pic" src={user.profilepic} className="profile-pic" /></div>
                         <span className="name"> {user.fullName} </span>
                         <span className="username"> @{user.username} </span>
                         <button className="edit-profile-btn" onClick={handleOpen}> Edit profile </button>
@@ -129,6 +144,7 @@ export default function ProfilePage() {
                 >
                     <Box sx={style}>
                         <center><h2> Edit Profile </h2></center>
+                        <input type="file" onChange={(e) => { setImageFile(e.target.files[0]) }} />
                         <div className="modal-ip-div">
                             <b> Name </b>
                             <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} />

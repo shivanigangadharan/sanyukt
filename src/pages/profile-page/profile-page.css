@@ -6,7 +6,8 @@
     text-align: center;
 }
 .profile-pic{
-    width: 6rem;
+    width: 8rem;
+    height: 8rem;
     border-radius: 999px;
 }
 .name{

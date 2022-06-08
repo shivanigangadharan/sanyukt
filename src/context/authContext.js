@@ -6,6 +6,8 @@ import {
 } from 'firebase/auth';
 import { addDoc, setDoc, doc, getDoc, getDocs } from '@firebase/firestore';
 import { usersRef, db, userRef } from '../firebase';
+import avatar from '../assets/defaultImg.png';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -13,6 +15,7 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    console.log("user in Auth provider: ", user);
     const [encodedToken, setEncodedToken] = useState(localStorage.getItem("token"));
     const [uid, setUid] = useState(localStorage.getItem("uid"));
     const auth = getAuth();
@@ -39,7 +42,8 @@ export const AuthProvider = ({ children }) => {
                 following: [],
                 bio: "Enter a short and suitable bio for yourself.",
                 portfolioURL: "enteryourPortfolio@url.com",
-                uid: uid
+                uid: uid,
+                profilepic: "https://res.cloudinary.com/dqpanoobq/image/upload/v1654634630/Social%20Media/defaultImg_j01icd.png",
             });
             setUserInLocalStorage(uid);
         }
