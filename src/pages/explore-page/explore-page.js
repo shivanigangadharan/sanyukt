@@ -14,10 +14,11 @@ export default function ExplorePage() {
     const [users, setUsers] = useState([]);
 
     const sortByLikes = () => {
-        // setPosts(posts.sort((a, b) => { return b.likes - a.likes }));
         setPosts((post) => [...post.sort((a, b) => { return b.likes - a.likes })]);
-        //decrement likes not working
-        // console.log(posts.sort((a, b) => { return b.likes - a.likes }))
+    }
+
+    const latestPostFirst = () => {
+        setPosts((post) => [...post.sort((a, b) => { return b.createdAt - a.createdAt })]);
     }
 
     const fetchPosts = async () => {
@@ -49,7 +50,7 @@ export default function ExplorePage() {
             <div className="homepage-content">
                 <h3> Explore </h3>
                 <div className="explore-categories">
-                    <button> For you </button>
+                    <button onClick={latestPostFirst}> Latest </button>
                     <button onClick={sortByLikes}> Trending </button>
                     <button> Technology </button>
                     <button> Self care </button>

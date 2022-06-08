@@ -5,7 +5,7 @@ import Sidebar from '../../components/sidebar/sidebar';
 import Post from '../../components/post/post';
 import FollowThem from '../../components/follow-them/follow-them';
 import { useAuth } from '../../context/authContext';
-import { getDocs, addDoc } from '@firebase/firestore';
+import { getDocs, addDoc, Timestamp } from '@firebase/firestore';
 import { postsRef, usersRef } from '../../firebase';
 import avatar from '../../assets/defaultImg.png';
 import { CloudinaryContext, Image } from 'cloudinary-react';
@@ -17,6 +17,7 @@ export default function Homepage() {
     const [users, setUsers] = useState([]);
     const [postContent, setPostContent] = useState(null);
     const [file, setFile] = useState(null);
+    const [dateObj, setDateObj] = useState();
 
     const fetchPosts = async () => {
         const res = await getDocs(postsRef);
@@ -27,6 +28,14 @@ export default function Homepage() {
             }
         });
         setPosts(posts);
+    }
+
+    const createDate = () => {
+        const date = new Date();
+        const currentDate = date.toDateString().split(' ').slice(1).join(' ');
+        const time = date.toTimeString().split(' ').slice(0, 1).join(' ');
+        console.log(currentDate + ' ' + time);
+        return currentDate + ' ' + time;
     }
 
     const fetchUsers = async () => {
@@ -55,12 +64,14 @@ export default function Homepage() {
                 data.append("upload_preset", "madhunter");
                 data.append("cloud_name", "dqpanoobq");
                 const res = await axios.post("https://api.cloudinary.com/v1_1/dqpanoobq/image/upload", data);
-                sendPostContent(res.data.url);
+
+                sendPostContent(res.data.url, createDate);
             } catch (e) { console.log(e) }
         }
     }
 
-    const sendPostContent = async (url) => {
+    const sendPostContent = async (url, dateObj) => {
+        const date = new Date();
         try {
             const res = await addDoc(postsRef, {
                 content: postContent,
@@ -69,7 +80,8 @@ export default function Homepage() {
                 uid: JSON.parse(localStorage.getItem("uid")),
                 imgURL: url,
                 likes: 0,
-                profilepic: user.profilepic
+                profilepic: user.profilepic,
+                createdAt: new Timestamp(new Date().getSeconds(), 0)
             });
             setPostContent("");
             setFile();
@@ -107,7 +119,7 @@ export default function Homepage() {
                         </div>
                     </div>
                 </div>
-                <h3> Posts for you</h3>
+                <h3 onClick={createDate}> Posts for you</h3>
                 {
                     posts.map((post) => {
                         return <Post post={post} key={post.id} />
