@@ -60,7 +60,7 @@ export default function ExplorePage() {
                     <span className="red-text"> Show more </span>
                 </div>
                 {
-                    users.map((usr) => {
+                    user && users.map((usr) => {
                         if (user.uid !== usr.uid) {
                             return <FollowThem userObj={usr} key={usr.id} />
                         }

@@ -15,6 +15,7 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    console.log("user in Auth provider: ", user);
     const [encodedToken, setEncodedToken] = useState(localStorage.getItem("token"));
     const [uid, setUid] = useState(localStorage.getItem("uid"));
     const auth = getAuth();

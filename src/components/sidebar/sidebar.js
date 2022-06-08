@@ -28,7 +28,9 @@ export default function Sidebar() {
             </div>
             <div className="user-avatar-container">
                 <div className="user-avatar-content">
-                    <img alt="profile-pic" src={user.profilepic} className="avatar" />
+                    {user !== null ?
+                        <img alt="profile-pic" src={user.profilepic} className="avatar" />
+                        : <div></div>}
                     {
                         user === null ? <div> </div> : <div>
                             {user.fullName} <br />

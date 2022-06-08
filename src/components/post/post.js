@@ -206,7 +206,11 @@ export default function Post({ post }) {
                 </div>
                 <div hidden={showComments ? false : true}>
                     <div className="write-comment">
-                        <img alt="profile-pic" src={user.profilepic} className="avatar" />
+                        {
+                            user !== null ?
+                                <img alt="profile-pic" src={user.profilepic} className="avatar" />
+                                : <div></div>
+                        }
                         <input value={comment} type="text" onChange={(e) => setComment(e.target.value)} placeholder="Write a comment..." />
                         <i onClick={addComment} className="fa-solid fa-play"></i>
                     </div>
