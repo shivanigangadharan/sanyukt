@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { dataReducer } from '../reducer/dataReducer';
+// import { dataReducer } from '../reducer/dataReducer';
 
 const initialState = {
     bookmarks: [],

@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const SignupUser = async (fullName, username, email, password) => {
+    const SignupUser = async (email, password) => {
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
             setEncodedToken(res.user.accessToken);
@@ -60,6 +60,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem("uid", JSON.stringify(res.user.uid));
             //adding user details to db
             addUserToDB(fullName, username, res.user.uid);
+
 
             return user;
         }

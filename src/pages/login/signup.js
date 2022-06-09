@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './login.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { signUp } from '../../redux/slices/authSlice';
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -12,9 +14,13 @@ export default function Signup() {
     const [fullName, setFullName] = useState();
     const [checkTerms, setCheckTerms] = useState(false);
     const { SignupUser } = useAuth();
+    const auth = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+
     const toggleCheck = (e) => {
         setCheckTerms(e.target.checked);
     }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (email === undefined || password === undefined) {
@@ -22,14 +28,19 @@ export default function Signup() {
         }
         else {
             if (checkTerms) {
-                if (SignupUser(fullName, username, email, password) !== null) {
-                    navigate("/explore");
-                }
+                // if (SignupUser(fullName, username, email, password) !== null) {
+                //     navigate("/explore");
+                // }
+                dispatch(signUp({ fullName: fullName, username: username, email: email, password: password }));
             } else {
                 alert("Please accept terms and conditions.");
             }
         }
     }
+    useEffect(() => {
+        console.log("auth - ", auth.uid, auth.username);
+    }, [auth]);
+
     return (
         <div>
 
@@ -37,6 +48,7 @@ export default function Signup() {
 
                 <div className="container-login">
                     <h2 className="heading">Sign up</h2>
+                    {auth.uid}
                     <form>
                         <div className="input-container">
                             <br />
