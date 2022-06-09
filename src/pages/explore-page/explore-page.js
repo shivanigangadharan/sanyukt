@@ -18,7 +18,7 @@ export default function ExplorePage() {
     }
 
     const sortByLatest = () => {
-        setPosts((post) => [...post.sort((a, b) => { return b.createdAt - a.createdAt })]);
+        setPosts((post) => [...post.sort((a, b) => { return a.createdAt - b.createdAt })]);
     }
 
     const fetchPosts = async () => {
