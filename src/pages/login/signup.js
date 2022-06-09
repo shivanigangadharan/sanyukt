@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './login.css';
+import '../../styles.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 
@@ -33,7 +34,7 @@ export default function Signup() {
     return (
         <div>
 
-            <div className="page-container">
+            <div className="page-container bg-teal">
 
                 <div className="container-login">
                     <h2 className="heading">Sign up</h2>

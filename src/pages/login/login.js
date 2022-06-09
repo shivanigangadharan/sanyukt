@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './login.css';
+import '../../styles.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 
@@ -24,7 +25,7 @@ export default function Login() {
     }
     return (
         <div>
-            <div className="page-container">
+            <div className="page-container bg-teal">
 
                 <div className="container-login">
                     <h2 className="heading">Login</h2>

@@ -41,3 +41,6 @@
 .follow-them-grid{
 
 }
+.bg-teal{
+    background: var(--primary)
+}
