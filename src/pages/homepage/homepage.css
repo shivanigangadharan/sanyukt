@@ -12,7 +12,8 @@
     width: 50%;
 }
 .img-preview{
-    max-width: 100%;
+    width: 90%;
+    margin: 1rem 0rem;
 }
 #post-img{
     display: none;
