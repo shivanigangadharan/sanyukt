@@ -12,13 +12,16 @@ export default function ExplorePage() {
     const { user } = useAuth();
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
+    const [category, setCategory] = useState();
 
     const sortByTrending = () => {
         setPosts((post) => [...post.sort((a, b) => { return b.likes - a.likes })]);
+        setCategory("trending");
     }
 
     const sortByLatest = () => {
         setPosts((post) => [...post.sort((a, b) => { return a.createdAt - b.createdAt })]);
+        setCategory("latest");
     }
 
     const fetchPosts = async () => {
@@ -50,8 +53,8 @@ export default function ExplorePage() {
             <div className="homepage-content">
                 <h3> Explore </h3>
                 <div className="explore-categories">
-                    <button onClick={sortByLatest}> Latest </button>
-                    <button onClick={sortByTrending}> Trending </button>
+                    <button className={category === "latest" ? "selected" : ""} onClick={sortByLatest}> Latest </button>
+                    <button className={category === "trending" ? "selected" : ""} onClick={sortByTrending}> Trending </button>
                 </div>
                 {
                     posts.map((post) => {
