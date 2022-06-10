@@ -20,7 +20,7 @@ export default function ExplorePage() {
     }
 
     const sortByLatest = () => {
-        setPosts((post) => [...post.sort((a, b) => { return a.createdAt - b.createdAt })]);
+        setPosts((post) => [...post.sort((a, b) => { return b.createdAt - a.createdAt })]);
         setCategory("latest");
     }
 
@@ -45,7 +45,7 @@ export default function ExplorePage() {
     useEffect(async () => {
         fetchPosts();
         fetchUsers();
-    }, []);
+    }, [user]);
 
     return (
         <div className="homepage-container">
