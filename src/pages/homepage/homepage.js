@@ -14,7 +14,7 @@ export default function Homepage() {
     const { user } = useAuth();
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
-    const [postContent, setPostContent] = useState(null);
+    const [postContent, setPostContent] = useState("");
     const [file, setFile] = useState(null);
 
     const fetchPosts = async () => {
@@ -43,9 +43,7 @@ export default function Homepage() {
     }, [user]);
 
     const postImage = async () => {
-        if (postContent === null && file === null) {
-            alert("Please either add content or an image to post.");
-        } else if (file === null) {
+        if (file === null) {
             sendPostContent("");
         } else {
             try {
@@ -79,7 +77,7 @@ export default function Homepage() {
     }
 
     const handleAddPost = () => {
-        if (postContent === null && url === null) {
+        if (postContent === "" && file === null) {
             alert("Please add some content to post.");
         } else {
             postImage();

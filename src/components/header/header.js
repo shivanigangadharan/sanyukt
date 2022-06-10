@@ -5,11 +5,16 @@ import './header.css';
 
 export default function Header() {
     return (
-        <div className="header-container">
-            <Link to="/homepage" className="header-content">
-                <img src={logo} alt="logo" className="brand-logo" />
-                <span className="brand-name"> Sanyukt </span>
-            </Link>
+        <div>
+            <div className="header-container">
+                <Link to="/homepage" className="header-content">
+                    <img src={logo} alt="logo" className="brand-logo" />
+                    <span className="brand-name"> Sanyukt </span>
+                </Link>
+            </div>
+            <div>
+                <iframe />
+            </div>
         </div>
     )
 }
