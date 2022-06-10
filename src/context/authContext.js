@@ -58,10 +58,12 @@ export const AuthProvider = ({ children }) => {
             //adding user details to db
             addUserToDB(fullName, username, res.user.uid);
 
-            return user;
+            return true;
         }
         catch (e) {
             console.log(e);
+            alert(e);
+            return e;
         }
     }
 

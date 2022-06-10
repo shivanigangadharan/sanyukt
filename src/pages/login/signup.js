@@ -23,8 +23,11 @@ export default function Signup() {
         }
         else {
             if (checkTerms) {
-                if (SignupUser(fullName, username, email, password) !== null) {
+                const response = SignupUser(fullName, username, email, password);
+                if (response === true) {
                     navigate("/explore");
+                } else {
+                    navigate("/")
                 }
             } else {
                 alert("Please accept terms and conditions.");
