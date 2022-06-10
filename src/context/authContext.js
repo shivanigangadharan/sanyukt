@@ -55,16 +55,15 @@ export const AuthProvider = ({ children }) => {
     const SignupUser = async (fullName, username, email, password) => {
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
-            setEncodedToken(res.user.accessToken);
-            localStorage.setItem("token", JSON.stringify(res.user.accessToken));
-            localStorage.setItem("uid", JSON.stringify(res.user.uid));
             //adding user details to db
             addUserToDB(fullName, username, res.user.uid);
 
-            return user;
+            return true;
         }
         catch (e) {
             console.log(e);
+            alert(e);
+            return e;
         }
     }
 

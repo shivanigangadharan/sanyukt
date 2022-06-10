@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './post.css';
-import '../../styles.css';
-import avatar from '../../assets/defaultImg.png';
-import { useAuth } from '../../context/authContext';
-import { useStateContext } from '../../context/stateContext';
-import { usersRef, db, commentsRef } from '../../firebase';
+import 'styles.css';
+import avatar from 'assets/defaultImg.png';
+import { useAuth } from 'context/authContext';
+import { useStateContext } from 'context/stateContext';
+import { usersRef, db, commentsRef } from 'firebase';
 import { updateDoc, arrayUnion, collection, doc, arrayRemove, increment, getDocs, addDoc, deleteDoc } from '@firebase/firestore';
 import { useNavigate } from 'react-router';
 import Comment from '../comment/comment';
 import { Modal, Box } from '@mui/material';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Post({ post }) {
     const { user, setUser } = useAuth();
@@ -227,27 +228,34 @@ export default function Post({ post }) {
 
     return (
         <div className="post-container">
+
             <img className="avatar" src={profilepic} alt="user-avatar" />
             <div className="post-content">
-                <div className="post-header">
-                    <div>
-                        <b>{fullName}</b>
-                        <span style={{ 'color': 'grey' }}> @{username}</span>
-                    </div>
+                <div className="post-top-section">
+                    <Link to={`/post/${id}`} className="post-link">
+                        <div className="post-header">
+                            <div>
+                                <b>{fullName}</b>
+                                <span style={{ 'color': 'grey' }}> @{username}</span>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            {content}
+                        </div>
+                        <img src={imgURL} className="img-preview" />
+                    </Link>
                     {
-                        user.uid === uid ? <span onClick={() => setShowOptions(!showOptions)}><i className="fa-solid fa-ellipsis"></i></span>
+                        user && user.uid === uid ? <span onClick={() => setShowOptions(!showOptions)}><i className="fa-solid fa-ellipsis"></i></span>
                             : <span></span>
                     }
-
                 </div>
                 <div className="post-options" hidden={showOptions ? false : true}>
                     <div onClick={() => { setShowOptions(false); handleOpen(); }}> Edit post </div>
                     <div onClick={() => { setShowOptions(false); deletePost(); }}> Delete post </div>
                 </div>
-                <div>
-                    {content}
-                </div>
-                <img src={imgURL} className="img-preview" />
+
                 <div className="post-icons">
                     {user && user.likes.includes(id) ?
                         <div>
