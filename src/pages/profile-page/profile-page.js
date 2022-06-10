@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../components/sidebar/sidebar';
-import Post from '../../components/post/post';
-import FollowThem from '../../components/follow-them/follow-them';
-import '../../styles.css';
+import Sidebar from 'components/sidebar/sidebar';
+import Post from 'components/post/post';
+import FollowThem from 'components/follow-them/follow-them';
+import 'styles.css';
 import './profile-page.css';
-import profilePic from '../../assets/defaultImg.png';
-import { useAuth } from '../../context/authContext';
+import profilePic from 'assets/defaultImg.png';
+import { useAuth } from 'context/authContext';
 import { getDocs, doc, updateDoc } from '@firebase/firestore';
-import { usersRef, postsRef, db } from '../../firebase';
+import { usersRef, postsRef, db } from 'firebase';
 import { Modal, Box, Typography } from '@mui/material';
 import axios from 'axios';
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../../components/sidebar/sidebar';
-import Post from '../../components/post/post';
-import FollowThem from '../../components/follow-them/follow-them';
-import '../../styles.css';
+import Sidebar from 'components/sidebar/sidebar';
+import Post from 'components/post/post';
+import FollowThem from 'components/follow-them/follow-them';
+import 'styles.css';
 import './explore-page.css';
-import { useAuth } from '../../context/authContext';
-import { postsRef, usersRef, db } from '../../firebase';
+import { useAuth } from 'context/authContext';
+import { postsRef, usersRef, db } from 'firebase';
 import { getDocs, addDoc, query, collection, where } from '@firebase/firestore';
 
 export default function ExplorePage() {

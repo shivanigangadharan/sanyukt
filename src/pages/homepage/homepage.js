@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import '../../styles.css';
-import Sidebar from '../../components/sidebar/sidebar';
-import Post from '../../components/post/post';
-import FollowThem from '../../components/follow-them/follow-them';
-import { useAuth } from '../../context/authContext';
+import 'styles.css';
+import Sidebar from 'components/sidebar/sidebar';
+import Post from 'components/post/post';
+import FollowThem from 'components/follow-them/follow-them';
+import { useAuth } from 'context/authContext';
 import { getDocs, addDoc, Timestamp } from '@firebase/firestore';
-import { postsRef, usersRef } from '../../firebase';
-import avatar from '../../assets/defaultImg.png';
+import { postsRef, usersRef } from 'firebase';
+import avatar from 'assets/defaultImg.png';
 import { CloudinaryContext, Image } from 'cloudinary-react';
 import axios from 'axios';
 

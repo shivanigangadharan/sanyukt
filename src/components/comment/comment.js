@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './comment.css';
-import avatar from '../../assets/defaultImg.png';
+import avatar from 'assets/defaultImg.png';
 
 export default function Comment({ details }) {
     const { comment, fullName, profilepic } = details;
