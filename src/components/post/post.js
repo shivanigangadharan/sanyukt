@@ -247,7 +247,7 @@ export default function Post({ post }) {
                         <img src={imgURL} className="img-preview" />
                     </Link>
                     {
-                        user.uid === uid ? <span onClick={() => setShowOptions(!showOptions)}><i className="fa-solid fa-ellipsis"></i></span>
+                        user && user.uid === uid ? <span onClick={() => setShowOptions(!showOptions)}><i className="fa-solid fa-ellipsis"></i></span>
                             : <span></span>
                     }
                 </div>
