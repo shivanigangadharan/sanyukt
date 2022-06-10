@@ -8,7 +8,7 @@
 .profile-pic{
     width: 8rem;
     height: 8rem;
-    border-radius: 999px;
+    border-radius: 62rem;
 }
 .name{
     font-weight: 700;
@@ -53,7 +53,7 @@
     cursor: pointer;
     background: var(--background-grey);
     padding: 1rem;
-    border-radius: 999px;
+    border-radius: 62rem;
 }
 .profile-numbers>*:hover{
     background: lightgrey;

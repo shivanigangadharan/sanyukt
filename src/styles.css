@@ -30,16 +30,13 @@
 .avatar{
     width: 2.5rem;
     height: 2.5rem;
-    border-radius: 999px;
+    border-radius: 62rem;
 }
 .grey-text{
     color: grey;
 }
 .red-text{
-    color: #DD2D4A;
-}
-.follow-them-grid{
-
+    color: var(--red);
 }
 .bg-teal{
     background: var(--primary)
