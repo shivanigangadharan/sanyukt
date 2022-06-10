@@ -1,6 +1,7 @@
 .follow-them-container{
     background: white;
     width: 100%;
+    max-width: 25rem;
     padding: 1rem;
 }
 .follow-them-title{

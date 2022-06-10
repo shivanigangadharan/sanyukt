@@ -2,13 +2,13 @@
     display: flex;
     background: var(--background-grey);
     text-align: left;
-    padding: 2rem 5rem;
+    padding: 2rem 3rem 2rem 2rem;
     justify-content: space-between;
     box-sizing: border-box;
     min-height: 100vh;
 }
 .homepage-content{
-    margin-left: 18rem;
+    margin-left: 15rem;
     width: 50%;
 }
 .img-preview{
