@@ -3,7 +3,7 @@ import './login.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import { useSelector, useDispatch } from 'react-redux';
-import { signUp } from '../../redux/slices/authSlice';
+import { signUp, getUserSignUp } from '../../redux/slices/authSlice';
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function Signup() {
         setCheckTerms(e.target.checked);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (email === undefined || password === undefined) {
             alert("Please enter email and password.");
@@ -31,15 +31,17 @@ export default function Signup() {
                 // if (SignupUser(fullName, username, email, password) !== null) {
                 //     navigate("/explore");
                 // }
-                dispatch(signUp({ fullName: fullName, username: username, email: email, password: password }));
+                const res = await dispatch(getUserSignUp({ fullName: fullName, username: username, email: email, password: password }))
+                console.log("dispatch res ", res)
             } else {
                 alert("Please accept terms and conditions.");
             }
         }
     }
+
     useEffect(() => {
-        console.log("auth - ", auth.uid, auth.username);
-    }, [auth]);
+        console.log("auth = ", auth);
+    })
 
     return (
         <div>
