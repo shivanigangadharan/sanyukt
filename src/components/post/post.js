@@ -3,7 +3,7 @@ import './post.css';
 import '../../styles.css';
 import avatar from '../../assets/defaultImg.png';
 import { useAuth } from '../../context/authContext';
-import { useStateContext } from '../../context/stateContext';
+// import { useStateContext } from '../../context/stateContext';
 import { usersRef, db, commentsRef } from '../../firebase';
 import { updateDoc, arrayUnion, collection, doc, arrayRemove, increment, getDocs, addDoc, deleteDoc } from '@firebase/firestore';
 import { useNavigate } from 'react-router';
@@ -13,7 +13,7 @@ import axios from 'axios';
 
 export default function Post({ post }) {
     const { user, setUser } = useAuth();
-    const { dispatch } = useStateContext();
+    // const { dispatch } = useStateContext();
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState();
     const [showComments, setShowComments] = useState(false);

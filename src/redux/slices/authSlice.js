@@ -16,7 +16,6 @@ const initialState = {
     portfolioURL: "enteryourPortfolio@url.com",
     uid: null,
     profilepic: "https://res.cloudinary.com/dqpanoobq/image/upload/v1654634630/Social%20Media/defaultImg_j01icd.png",
-    loading: false,
 };
 
 const auth = getAuth();
@@ -46,8 +45,8 @@ export const getUserSignUp = createAsyncThunk(
     "user/signup",
     async (arg) => {
         try {
-            const res = await createUserWithEmailAndPassword(auth, "unique@gmail.com", "unique123");
-            console.log("Signed up! ", res.user);
+            const res = await createUserWithEmailAndPassword(auth, arg.email, arg.password);
+            addUserToDB(arg.fullName, arg.username, res.user.uid)
             return res.user;
         } catch (e) { console.log(e) }
     }
@@ -57,20 +56,8 @@ export const authSlice = createSlice({
     name: "auth",
     initialState,
 
-    //this is the user reducers (all reducer functions)
     reducers: {
-        // signUp: async (state, action) => {
-        //     try {
-        //         const res = await createUserWithEmailAndPassword(auth, action.payload.email, action.payload.password);
-        //         addUserToDB(action.payload.fullName, action.payload.username, res.user.uid);
-        //         // state.uid = res.user.uid;
-        //         state.fullName = action.payload.fullName;
-        //         state.username = action.payload.username;
-        //         console.log('state - ', state.uid, state.username, state.posts)
-        //         return { ...state, uid: res.user.uid }
-        //     } catch (e) { console.log(e) }
-        //     // console.log("localStorg: ", JSON.parse(localStorage.getItem("user")))
-        // }
+
     },
     extraReducers: {
         [getUserSignUp.pending]: (state, { payload }) => {
@@ -78,14 +65,12 @@ export const authSlice = createSlice({
         },
         [getUserSignUp.fulfilled]: (state, action) => {
             state.email = action.payload.email
-            localStorage.setItem("user ", JSON.stringify(action.payload.email))
+            localStorage.setItem("uid ", JSON.stringify(action.payload.uid))
         },
         [getUserSignUp.rejected]: (state, { payload }) => {
             state.loading = false
         },
     }
 });
-
-// export const { getUserSignUp } = authSlice.actions;
 
 export default authSlice.reducer;

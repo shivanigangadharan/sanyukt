@@ -28,20 +28,18 @@ export default function Signup() {
         }
         else {
             if (checkTerms) {
-                // if (SignupUser(fullName, username, email, password) !== null) {
-                //     navigate("/explore");
-                // }
                 const res = await dispatch(getUserSignUp({ fullName: fullName, username: username, email: email, password: password }))
-                console.log("dispatch res ", res)
+                console.log("dispatch res ", res);
+                if (res.payload.uid) {
+                    navigate("/explore");
+                } else {
+                    alert(res)
+                }
             } else {
                 alert("Please accept terms and conditions.");
             }
         }
     }
-
-    useEffect(() => {
-        console.log("auth = ", auth);
-    })
 
     return (
         <div>
@@ -50,7 +48,6 @@ export default function Signup() {
 
                 <div className="container-login">
                     <h2 className="heading">Sign up</h2>
-                    {auth.uid}
                     <form>
                         <div className="input-container">
                             <br />
