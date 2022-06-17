@@ -271,7 +271,8 @@ export default function Post({ post }) {
                     <span onClick={() => setShowComments(!showComments)}> <i className="fa-regular fa-comment"></i>
                         <span style={{ 'fontSize': '1rem' }}> {comments.length} </span>
                     </span>
-                    <span> <i className="fa-regular fa-share-from-square"></i> </span>
+                    {/* not functional yet, commenting for roc8
+                    <span> <i className="fa-regular fa-share-from-square"></i> </span> */}
                     {user && user.bookmarks.includes(id) ?
                         <div>
                             <span onClick={handleBookmarkClick}> <i className="fa-solid fa-bookmark"></i> </span>
