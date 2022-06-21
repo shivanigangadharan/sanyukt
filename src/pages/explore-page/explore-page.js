@@ -7,11 +7,12 @@ import './explore-page.css';
 import { useAuth } from '../../context/authContext';
 import { postsRef, usersRef, db } from '../../firebase';
 import { getDocs, addDoc, query, collection, where } from '@firebase/firestore';
+import { useSelector } from 'react-redux';
 
 export default function ExplorePage() {
-    const { user } = useAuth();
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
+    const user = useSelector((state) => state.user);
 
     const sortByTrending = () => {
         setPosts((post) => [...post.sort((a, b) => { return b.likes - a.likes })]);

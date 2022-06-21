@@ -10,9 +10,10 @@ import { getDocs, doc, updateDoc } from '@firebase/firestore';
 import { usersRef, postsRef, db } from '../../firebase';
 import { Modal, Box, Typography } from '@mui/material';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function ProfilePage() {
-    const { user, setUser } = useAuth();
+    const user = useSelector((state) => state.user);
     const [users, setUsers] = useState([]);
     const [posts, setPosts] = useState([]);
     const [display, setDisplay] = useState("following");

@@ -10,10 +10,9 @@ import { useNavigate } from 'react-router';
 import Comment from '../comment/comment';
 import { Modal, Box } from '@mui/material';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function Post({ post }) {
-    const { user, setUser } = useAuth();
-    // const { dispatch } = useStateContext();
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState();
     const [showComments, setShowComments] = useState(false);
@@ -22,6 +21,7 @@ export default function Post({ post }) {
     const { content, likes, id, email, username, fullName, imgURL, profilepic, uid } = post;
     const [postLikes, setPostLikes] = useState(likes);
     const navigate = useNavigate();
+    const user = useSelector((state) => state.user);
 
     const addBookmark = async () => {
         try {
@@ -144,7 +144,7 @@ export default function Post({ post }) {
             const res = await getDocs(commentsRef);
             res.docs.forEach((e) => {
                 if (e.data().postID === id) {
-                    commentsArr.push({ ...e.data() });
+                    commentsArr.push({ ...e.data(), id: e.id });
                 }
             });
             setComments(commentsArr)

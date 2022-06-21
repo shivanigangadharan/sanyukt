@@ -8,9 +8,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { db, postsRef, usersRef } from '../../firebase';
 import { query, collection, where, getDocs } from '@firebase/firestore';
+import { useSelector } from 'react-redux';
 
 export default function BookmarkPage() {
-    const { user, encodedToken } = useAuth();
+    const user = useSelector((state) => state.user)
     const [postIDs, setPostIDs] = useState([]);
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
@@ -65,7 +66,7 @@ export default function BookmarkPage() {
                 {
                     users.map((usr) => {
                         if (user.uid !== usr.uid) {
-                        return <FollowThem userObj={usr} key={usr.id} />
+                            return <FollowThem userObj={usr} key={usr.id} />
                         }
                     })
                 }

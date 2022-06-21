@@ -2,23 +2,27 @@ import React, { useState } from 'react';
 import './login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
+import { userLogin } from '../../redux/slices/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Login() {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const { LoginUser } = useAuth();
     const navigate = useNavigate();
-    const handleLogin = async (e) => {
+    const dispatch = useDispatch();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (email === undefined || password === undefined) {
             alert("Please enter email and password.");
         }
         else {
-            const LoginResponse = await LoginUser(email, password);
-            if (LoginResponse) {
+
+            const res = await dispatch(userLogin({ email: email, password: password }))
+            if (res.payload.uid) {
                 navigate("/explore");
             } else {
-                alert("Invalid credentials, please sign up.");
+                alert(res.payload);
             }
         }
     }
@@ -45,7 +49,7 @@ export default function Login() {
             </div>
                             <a href="#">Forgot your password?</a>
                         </div>
-                        <button onClick={e => handleLogin(e)} className="btn login">Login</button>
+                        <button onClick={e => handleSubmit(e)} className="btn login">Login</button>
                         <div className="create">
                             <Link to="/signup">
                                 Create new account

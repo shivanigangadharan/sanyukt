@@ -1,22 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAuth, createUserWithEmailAndPassword } from "@firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "@firebase/auth";
 import { getDocs, addDoc } from "@firebase/firestore";
 import { usersRef } from "../../firebase";
 
 //logged in user
-const initialState = {
-    fullName: "",
-    username: "",
-    posts: [],
-    bookmarks: [],
-    likes: [],
-    followers: [],
-    following: [],
-    bio: "Enter a short and suitable bio for yourself.",
-    portfolioURL: "enteryourPortfolio@url.com",
-    uid: null,
-    profilepic: "https://res.cloudinary.com/dqpanoobq/image/upload/v1654634630/Social%20Media/defaultImg_j01icd.png",
-};
+const initialState = localStorage.getItem("user") === null ? {} : JSON.parse(localStorage.getItem("user"));
 
 const auth = getAuth();
 
@@ -28,7 +16,16 @@ const setUserInLocalStorage = async (uid) => {
         }
     });
 }
-
+const getUser = async (uid) => {
+    const res = await getDocs(usersRef);
+    var u;
+    res.forEach((doc) => {
+        if (doc.data().uid === uid) {
+            u = { ...doc.data(), id: doc.id }
+        }
+    });
+    return u;
+}
 const addUserToDB = async (fullName, username, uid) => {
     try {
         const res = await addDoc(usersRef, {
@@ -41,7 +38,7 @@ const addUserToDB = async (fullName, username, uid) => {
     }
 }
 
-export const getUserSignUp = createAsyncThunk(
+export const userSignUp = createAsyncThunk(
     "user/signup",
     async (arg) => {
         try {
@@ -51,24 +48,51 @@ export const getUserSignUp = createAsyncThunk(
         } catch (e) { console.log(e) }
     }
 )
+export const userLogin = createAsyncThunk(
+    "user/login",
+    async (arg) => {
+        try {
+            const res = await signInWithEmailAndPassword(auth, arg.email, arg.password);
+            localStorage.setItem("uid", JSON.stringify(res.user.uid));
+            setUserInLocalStorage(res.user.uid);
+            const loggedUser = getUser(res.user.uid);
+            return loggedUser;
+        }
+        catch (e) {
+            console.log(e);
+            return e;
+        }
+    }
+)
 
 export const authSlice = createSlice({
-    name: "auth",
+    name: "user",
     initialState,
 
     reducers: {
 
     },
     extraReducers: {
-        [getUserSignUp.pending]: (state, { payload }) => {
-            state.loading = true
-        },
-        [getUserSignUp.fulfilled]: (state, action) => {
+        [userSignUp.fulfilled]: (state, action) => {
             state.email = action.payload.email
-            localStorage.setItem("uid ", JSON.stringify(action.payload.uid))
+            localStorage.setItem("uid", JSON.stringify(action.payload.uid))
         },
-        [getUserSignUp.rejected]: (state, { payload }) => {
-            state.loading = false
+        [userLogin.fulfilled]: (state, action) => {
+            localStorage.setItem("uid", JSON.stringify(action.payload.uid));
+            state.uid = action.payload.uid;
+            state.fullName = action.payload.fullName;
+            state.username = action.payload.username;
+            state.posts = action.payload.posts;
+            state.bookmarks = action.payload.bookmarks;
+            state.likes = action.payload.likes;
+            state.followers = action.payload.followers;
+            state.following = action.payload.following;
+            state.bio = action.payload.bio;
+            state.portfolioURL = action.payload.portfolioURL;
+            state.uid = action.payload.uid;
+            state.id = action.payload.id;
+            state.profilepic = action.payload.profilepic;
+            console.log("Now state = ", state)
         },
     }
 });

@@ -3,7 +3,7 @@ import './login.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import { useSelector, useDispatch } from 'react-redux';
-import { signUp, getUserSignUp } from '../../redux/slices/authSlice';
+import {  userSignUp } from '../../redux/slices/authSlice';
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -14,9 +14,9 @@ export default function Signup() {
     const [fullName, setFullName] = useState();
     const [checkTerms, setCheckTerms] = useState(false);
     const { SignupUser } = useAuth();
-    const auth = useSelector((state) => state.auth);
+    const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
-
+    console.log("user in signup - ", user)
     const toggleCheck = (e) => {
         setCheckTerms(e.target.checked);
     }
@@ -28,7 +28,7 @@ export default function Signup() {
         }
         else {
             if (checkTerms) {
-                const res = await dispatch(getUserSignUp({ fullName: fullName, username: username, email: email, password: password }))
+                const res = await dispatch(userSignUp({ fullName: fullName, username: username, email: email, password: password }))
                 console.log("dispatch res ", res);
                 if (res.payload.uid) {
                     navigate("/explore");
