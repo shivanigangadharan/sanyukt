@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "@firebase/auth";
-import { getDocs, addDoc } from "@firebase/firestore";
-import { usersRef } from "../../firebase";
+import { getDocs, addDoc, updateDoc, arrayUnion, doc, arrayRemove } from "@firebase/firestore";
+import { usersRef, db } from "../../firebase";
 
 //logged in user
 const initialState = localStorage.getItem("user") === null ? {} : JSON.parse(localStorage.getItem("user"));
@@ -65,13 +65,71 @@ export const userLogin = createAsyncThunk(
     }
 )
 
+export const addToFollowing = createAsyncThunk(
+    "user/addToFollowing",
+    async (arg) => {
+        try {
+            const userRef = doc(db, `users/${arg.userID}`);
+            const res = await updateDoc(userRef, {
+                following: arrayUnion(arg.uid)
+            })
+            const localUser = JSON.parse(localStorage.getItem("user"));
+            localStorage.setItem("user", JSON.stringify({ ...localUser, following: [...localUser.following, arg.uid] }));
+            return arg.uid;
+        } catch (e) {
+            console.log(e)
+        }
+    }
+)
+export const addToFollowers = createAsyncThunk(
+    "user/addToFollowers",
+    async (arg) => {
+        try {
+            console.log("Adding to following...")
+            const userRef = doc(db, `users/${arg.id}`);
+            const res = await updateDoc(userRef, {
+                followers: arrayUnion(arg.userUID)
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+)
+export const removeFromFollowing = createAsyncThunk(
+    "user/removeFromFollowing",
+    async (arg) => {
+        try {
+            const userRef = doc(db, `users/${arg.userID}`);
+            const res = await updateDoc(userRef, {
+                following: arrayRemove(arg.uid)
+            });
+            const localUser = JSON.parse(localStorage.getItem("user"));
+            const filteredFollowing = localUser.following.filter((userID) => userID !== arg.uid);
+            localStorage.setItem("user", JSON.stringify({ ...localUser, following: filteredFollowing }));
+            return filteredFollowing;
+        } catch (e) {
+            console.log(e)
+        }
+    }
+)
+export const removeFromFollowers = createAsyncThunk(
+    "user/removeFromFollowers",
+    async (arg) => {
+        try {
+            const userRef = doc(db, `users/${arg.id}`);
+            const res = await updateDoc(userRef, {
+                followers: arrayRemove(arg.userUID)
+            });
+        } catch (e) {
+            console.log(e)
+        }
+    }
+)
+
 export const authSlice = createSlice({
     name: "user",
     initialState,
-
-    reducers: {
-
-    },
+    reducers: {},
     extraReducers: {
         [userSignUp.fulfilled]: (state, action) => {
             state.email = action.payload.email
@@ -92,8 +150,14 @@ export const authSlice = createSlice({
             state.uid = action.payload.uid;
             state.id = action.payload.id;
             state.profilepic = action.payload.profilepic;
-            console.log("Now state = ", state)
         },
+        [addToFollowing.fulfilled]: (state, action) => {
+            state.following = [...state.following, action.payload]
+        },
+        [removeFromFollowing.fulfilled]: (state, action) => {
+            state.following = action.payload;
+        }
+
     }
 });
 
