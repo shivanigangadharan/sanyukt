@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import '../../styles.css';
+import 'styles.css';
 import './sidebar.css';
 import avatar from '../../assets/defaultImg.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/authContext';
+import { useAuth } from 'context/authContext';
 import { signOut } from 'firebase/auth';
 
 export default function Sidebar() {

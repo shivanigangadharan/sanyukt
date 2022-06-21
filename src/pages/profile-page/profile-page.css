@@ -8,7 +8,7 @@
 .profile-pic{
     width: 8rem;
     height: 8rem;
-    border-radius: 999px;
+    border-radius: 62rem;
 }
 .name{
     font-weight: 700;
@@ -51,6 +51,12 @@
     display: flex;
     flex-direction: column;
     cursor: pointer;
+    background: var(--background-grey);
+    padding: 1rem;
+    border-radius: 62rem;
+}
+.profile-numbers>*:hover{
+    background: lightgrey;
 }
 .follow-container{
     display: flex;
@@ -84,4 +90,9 @@
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
+}
+.followDetails{
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
 }

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './login.css';
+import 'styles.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/authContext';
+import { useAuth } from 'context/authContext';
 import { userLogin } from '../../redux/slices/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -26,9 +27,18 @@ export default function Login() {
             }
         }
     }
+    const guestLogin = async (e) => {
+       e.preventDefault();
+      const res = await dispatch(userLogin({ email: "guest@gmail.com", password: "guest123" }))
+      if (res.payload.uid) {
+          navigate("/explore");
+      } else {
+          alert(res.payload);
+      }
+    }
     return (
         <div>
-            <div className="page-container">
+            <div className="page-container bg-teal">
 
                 <div className="container-login">
                     <h2 className="heading">Login</h2>
@@ -49,7 +59,10 @@ export default function Login() {
             </div>
                             <a href="#">Forgot your password?</a>
                         </div>
+
                         <button onClick={e => handleSubmit(e)} className="btn login">Login</button>
+                        <button onClick={e => guestLogin(e)} className="btn login">Login as a guest</button>
+
                         <div className="create">
                             <Link to="/signup">
                                 Create new account

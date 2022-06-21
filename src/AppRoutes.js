@@ -22,7 +22,8 @@ export default function AppRoutes() {
                 <Route path="explore" element={<ExplorePage />} />
                 <Route path="notifications" element={<NotificationsPage />} />
                 <Route path="profile" element={<ProfilePage />} />
-                <Route path="post" element={<PostPage />} />
+                <Route path="/post/:id" element={<PostPage />} />
+
             </Routes>
 
         </div>

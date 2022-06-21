@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './login.css';
+import 'styles.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/authContext';
+import { useAuth } from 'context/authContext';
 import { useSelector, useDispatch } from 'react-redux';
 import {  userSignUp } from '../../redux/slices/authSlice';
 
@@ -29,7 +30,6 @@ export default function Signup() {
         else {
             if (checkTerms) {
                 const res = await dispatch(userSignUp({ fullName: fullName, username: username, email: email, password: password }))
-                console.log("dispatch res ", res);
                 if (res.payload.uid) {
                     navigate("/explore");
                 } else {
@@ -44,7 +44,7 @@ export default function Signup() {
     return (
         <div>
 
-            <div className="page-container">
+            <div className="page-container bg-teal">
 
                 <div className="container-login">
                     <h2 className="heading">Sign up</h2>

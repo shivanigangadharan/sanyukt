@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import '../../styles.css';
-import avatar from '../../assets/defaultImg.png';
+import 'styles.css';
+import avatar from 'assets/defaultImg.png';
 import './follow-them.css';
-import { useAuth } from '../../context/authContext';
+import { useAuth } from 'context/authContext';
 import { doc, updateDoc, arrayUnion, arrayRemove } from '@firebase/firestore';
 import { db } from '../../firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToFollowing, addToFollowers, removeFromFollowing, removeFromFollowers } from '../../redux/slices/authSlice';
+
 
 export default function FollowThem({ userObj }) {
     const { fullName, username, following, uid, id, followers, profilepic } = userObj;

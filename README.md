@@ -16,6 +16,7 @@ Sanyukt, which means connected, is a social networking app that lets you build y
 - Sign up with new account
 - Login to existing account
 - Logout
+- Guest login 
 
 ### Homepage
 - Here user can create a post using text, image or both.
@@ -48,6 +49,12 @@ Sanyukt, which means connected, is a social networking app that lets you build y
 - Bookmark/remove from bookmarks
 - Edit a post (option only visible to post creator)
 - Delete a post (option only visible to post creator)
+
+### Single post page
+- On clicking the contents of any post, user is directed to a single post page with only that particular post.
+
+![image](https://user-images.githubusercontent.com/30795425/173043035-d3ff0e7d-07f4-447d-abc3-42c1795bbcb4.png)
+
 
 ### Follow
 - A "who to follow" suggestion box appears on the right showing other people whom you can follow/unfollow

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../../components/sidebar/sidebar';
-import Post from '../../components/post/post';
-import FollowThem from '../../components/follow-them/follow-them';
-import '../../styles.css';
-import { useAuth } from '../../context/authContext';
+import Sidebar from 'components/sidebar/sidebar';
+import Post from 'components/post/post';
+import FollowThem from 'components/follow-them/follow-them';
+import 'styles.css';
+import { useAuth } from 'context/authContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { db, postsRef, usersRef } from '../../firebase';
+import { db, postsRef, usersRef } from 'firebase';
 import { query, collection, where, getDocs } from '@firebase/firestore';
 import { useSelector } from 'react-redux';
 

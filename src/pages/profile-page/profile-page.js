@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../components/sidebar/sidebar';
-import Post from '../../components/post/post';
-import FollowThem from '../../components/follow-them/follow-them';
-import '../../styles.css';
+import Sidebar from 'components/sidebar/sidebar';
+import Post from 'components/post/post';
+import FollowThem from 'components/follow-them/follow-them';
+import 'styles.css';
 import './profile-page.css';
-import profilePic from '../../assets/defaultImg.png';
-import { useAuth } from '../../context/authContext';
+import profilePic from 'assets/defaultImg.png';
+import { useAuth } from 'context/authContext';
 import { getDocs, doc, updateDoc } from '@firebase/firestore';
-import { usersRef, postsRef, db } from '../../firebase';
+import { usersRef, postsRef, db } from 'firebase';
 import { Modal, Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -176,13 +176,18 @@ export default function ProfilePage() {
                         users.map((usr) => {
                             if (user.following.includes(usr.uid)) {
                                 return <div className="follow-container" key={usr.id}>
-                                    <img className="avatar" src={profilePic} alt="profilePic" />
+                                    <img className="avatar" src={usr.profilepic} alt="profilePic" />
                                     <div>
                                         <div className="follow-title">
                                             <h4> {usr.fullName} </h4>
                                             <span className="grey-text"> @{usr.username} </span>
                                         </div>
-                                        {usr.bio}
+                                        <div>{usr.bio}</div>
+                                        <a target="_blank" href={usr.portfolioURL} className="bio red-text"> {usr.portfolioURL} </a>
+                                        <div className="followDetails">
+                                            <div><b> Followers :  </b>{usr.followers.length}</div>
+                                            <div><b> Following :</b> {usr.following.length} </div>
+                                        </div>
                                     </div>
                                 </div>
                             }
@@ -196,13 +201,18 @@ export default function ProfilePage() {
                         users.map((usr) => {
                             if (user.followers.includes(usr.uid)) {
                                 return <div className="follow-container" key={usr.id}>
-                                    <img className="avatar" src={profilePic} alt="profilePic" />
+                                    <img className="avatar" src={usr.profilepic} alt="profilePic" />
                                     <div>
                                         <div className="follow-title">
                                             <h4> {usr.fullName} </h4>
                                             <span className="grey-text"> @{usr.username} </span>
                                         </div>
-                                        {usr.bio}
+                                        <div>{usr.bio}</div>
+                                        <a target="_blank" href={usr.portfolioURL} className="bio red-text"> {usr.portfolioURL} </a>
+                                        <div className="followDetails">
+                                            <div><b> Followers :  </b>{usr.followers.length}</div>
+                                            <div><b> Following :</b> {usr.following.length} </div>
+                                        </div>
                                     </div>
                                 </div>
                             }

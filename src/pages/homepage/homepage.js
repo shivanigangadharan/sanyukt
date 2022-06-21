@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import '../../styles.css';
-import './homepage.css';
-import Sidebar from '../../components/sidebar/sidebar';
-import Post from '../../components/post/post';
-import FollowThem from '../../components/follow-them/follow-them';
-import { useAuth } from '../../context/authContext';
+import 'styles.css';
+import Sidebar from 'components/sidebar/sidebar';
+import Post from 'components/post/post';
+import FollowThem from 'components/follow-them/follow-them';
+import { useAuth } from 'context/authContext';
 import { getDocs, addDoc, Timestamp } from '@firebase/firestore';
-import { postsRef, usersRef } from '../../firebase';
-import avatar from '../../assets/defaultImg.png';
+import { postsRef, usersRef } from 'firebase';
+import avatar from 'assets/defaultImg.png';
 import { CloudinaryContext, Image } from 'cloudinary-react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -16,7 +15,7 @@ export default function Homepage() {
     const user = useSelector((state)=>state.user);
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
-    const [postContent, setPostContent] = useState(null);
+    const [postContent, setPostContent] = useState("");
     const [file, setFile] = useState(null);
 
     const fetchPosts = async () => {
@@ -45,9 +44,7 @@ export default function Homepage() {
     }, [user]);
 
     const postImage = async () => {
-        if (postContent === null && file === null) {
-            alert("Please either add content or an image to post.");
-        } else if (file === null) {
+        if (file === null) {
             sendPostContent("");
         } else {
             try {
@@ -81,7 +78,7 @@ export default function Homepage() {
     }
 
     const handleAddPost = () => {
-        if (postContent === null && url === null) {
+        if (postContent === "" && file === null) {
             alert("Please add some content to post.");
         } else {
             postImage();
