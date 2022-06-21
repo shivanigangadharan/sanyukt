@@ -3,9 +3,7 @@ import './post.css';
 import 'styles.css';
 import avatar from 'assets/defaultImg.png';
 import { useAuth } from 'context/authContext';
-// import { useStateContext } from 'context/stateContext';
 import { usersRef, db, commentsRef } from 'firebase';
-
 import { updateDoc, arrayUnion, collection, doc, arrayRemove, increment, getDocs, addDoc, deleteDoc } from '@firebase/firestore';
 import { useNavigate } from 'react-router';
 import Comment from '../comment/comment';
@@ -13,7 +11,6 @@ import { Modal, Box } from '@mui/material';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
 
 export default function Post({ post }) {
     const [comments, setComments] = useState([]);

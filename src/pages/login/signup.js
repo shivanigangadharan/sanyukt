@@ -4,7 +4,7 @@ import 'styles.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from 'context/authContext';
 import { useSelector, useDispatch } from 'react-redux';
-import {  userSignUp } from '../../redux/slices/authSlice';
+import { userSignUp } from '../../redux/slices/userSlice';
 
 export default function Signup() {
     const navigate = useNavigate();

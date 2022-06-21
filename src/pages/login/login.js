@@ -3,7 +3,7 @@ import './login.css';
 import 'styles.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from 'context/authContext';
-import { userLogin } from '../../redux/slices/authSlice';
+import { userLogin } from '../../redux/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Login() {
@@ -28,13 +28,13 @@ export default function Login() {
         }
     }
     const guestLogin = async (e) => {
-       e.preventDefault();
-      const res = await dispatch(userLogin({ email: "guest@gmail.com", password: "guest123" }))
-      if (res.payload.uid) {
-          navigate("/explore");
-      } else {
-          alert(res.payload);
-      }
+        e.preventDefault();
+        const res = await dispatch(userLogin({ email: "guest@gmail.com", password: "guest123" }))
+        if (res.payload.uid) {
+            navigate("/explore");
+        } else {
+            alert(res.payload);
+        }
     }
     return (
         <div>

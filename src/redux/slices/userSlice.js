@@ -126,7 +126,7 @@ export const removeFromFollowers = createAsyncThunk(
     }
 )
 
-export const authSlice = createSlice({
+export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {},
@@ -161,4 +161,4 @@ export const authSlice = createSlice({
     }
 });
 
-export default authSlice.reducer;
+export default userSlice.reducer;

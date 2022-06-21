@@ -6,7 +6,7 @@ import { useAuth } from 'context/authContext';
 import { doc, updateDoc, arrayUnion, arrayRemove } from '@firebase/firestore';
 import { db } from '../../firebase';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToFollowing, addToFollowers, removeFromFollowing, removeFromFollowers } from '../../redux/slices/authSlice';
+import { addToFollowing, addToFollowers, removeFromFollowing, removeFromFollowers } from '../../redux/slices/userSlice';
 
 
 export default function FollowThem({ userObj }) {
