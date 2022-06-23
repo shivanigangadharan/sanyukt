@@ -10,11 +10,9 @@ import { Provider } from 'react-redux';
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <AuthProvider> */}
     <Provider store={store}>
       <App />
     </Provider>
-    {/* </AuthProvider > */}
   </React.StrictMode>,
   document.getElementById("root")
 );
