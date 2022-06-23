@@ -73,7 +73,7 @@ export default function ProfilePage() {
         data.append("cloud_name", "dqpanoobq");
         const res = await axios.post("https://api.cloudinary.com/v1_1/dqpanoobq/image/upload", data);
         dispatch(postProfileData({
-            userID: user.id, fullName: fullName, username: username, bio: bio, portfolioURL: portfolioURL, profilepic: res.data.url
+            userID: user.id, fullName, username, bio, portfolioURL, profilepic: res.data.url
         }));
         handleClose();
     }

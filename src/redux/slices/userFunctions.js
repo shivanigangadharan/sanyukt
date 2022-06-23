@@ -4,13 +4,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getUser = async (uid) => {
     const res = await getDocs(usersRef);
-    var u;
+    let user;
     res.forEach((doc) => {
         if (doc.data().uid === uid) {
-            u = { ...doc.data(), id: doc.id };
+            user = { ...doc.data(), id: doc.id };
         }
     });
-    return u;
+    return user;
 };
 
 export const setUserInLocalStorage = async (uid) => {
@@ -86,7 +86,7 @@ export const postProfileData = createAsyncThunk("user/postProfileData", async (a
             }
         ));
         return {
-            fullName: arg.fullName, username: arg.username, bio: arg.bio, portfolioURL: arg.portfolioURL, profilepic: arg.profilepic
+            ...localUser, fullName: arg.fullName, username: arg.username, bio: arg.bio, portfolioURL: arg.portfolioURL, profilepic: arg.profilepic
         }
 
     } catch (e) { console.log(e) }
