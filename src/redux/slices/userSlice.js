@@ -2,11 +2,11 @@ import { addBookmark, removeBookmark, addLike, removeLike } from "./postFunction
 
 import {
     getUser, setUserInLocalStorage, addToFollowing,
-    addToFollowers, removeFromFollowers, removeFromFollowing
+    addToFollowers, removeFromFollowers, removeFromFollowing, postProfileData
 } from "./userFunctions";
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "@firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "@firebase/auth";
 import { getDocs, addDoc, arrayRemove } from "@firebase/firestore";
 import { usersRef } from "../../firebase";
 
@@ -44,7 +44,6 @@ export const userLogin = createAsyncThunk(
     async (arg) => {
         try {
             const res = await signInWithEmailAndPassword(auth, arg.email, arg.password);
-            localStorage.setItem("uid", JSON.stringify(res.user.uid));
             setUserInLocalStorage(res.user.uid);
             const loggedUser = getUser(res.user.uid);
             return loggedUser;
@@ -56,6 +55,18 @@ export const userLogin = createAsyncThunk(
     }
 )
 
+export const userLogout = createAsyncThunk("user/logout", async (arg) => {
+    try {
+        const res = await signOut(auth);
+        localStorage.removeItem("user");
+        return null;
+    }
+    catch (e) {
+        console.log(e);
+        return false;
+    }
+})
+
 export const userSlice = createSlice({
     name: "user",
     initialState,
@@ -63,10 +74,8 @@ export const userSlice = createSlice({
     extraReducers: {
         [userSignUp.fulfilled]: (state, action) => {
             state.email = action.payload.email
-            localStorage.setItem("uid", JSON.stringify(action.payload.uid))
         },
         [userLogin.fulfilled]: (state, action) => {
-            localStorage.setItem("uid", JSON.stringify(action.payload.uid));
             state.uid = action.payload.uid;
             state.fullName = action.payload.fullName;
             state.username = action.payload.username;
@@ -80,6 +89,9 @@ export const userSlice = createSlice({
             state.uid = action.payload.uid;
             state.id = action.payload.id;
             state.profilepic = action.payload.profilepic;
+        },
+        [userLogout.fulfilled]: (state, action) => {
+            state = null;
         },
         [addToFollowing.fulfilled]: (state, action) => {
             state.following = [...state.following, action.payload]
@@ -98,6 +110,13 @@ export const userSlice = createSlice({
         },
         [removeLike.fulfilled]: (state, action) => {
             state.likes = action.payload;
+        },
+        [postProfileData.fulfilled]: (state, action) => {
+            state.fullName = action.payload.fullName;
+            state.username = action.payload.username;
+            state.bio = action.payload.bio;
+            state.portfolioURL = action.payload.portfolioURL;
+            state.profilepic = action.payload.profilepic;
         }
     }
 });

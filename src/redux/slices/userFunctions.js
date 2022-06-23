@@ -22,66 +22,72 @@ export const setUserInLocalStorage = async (uid) => {
     });
 }
 
-export const addToFollowing = createAsyncThunk(
-    "user/addToFollowing",
-    async (arg) => {
-        try {
-            const userRef = doc(db, `users/${arg.userID}`);
-            const res = await updateDoc(userRef, {
-                following: arrayUnion(arg.uid)
-            })
-            const localUser = JSON.parse(localStorage.getItem("user"));
-            localStorage.setItem("user", JSON.stringify({ ...localUser, following: [...localUser.following, arg.uid] }));
-            return arg.uid;
-        } catch (e) {
-            console.log(e)
-        }
+export const addToFollowing = createAsyncThunk("user/addToFollowing", async (arg) => {
+    try {
+        const userRef = doc(db, `users/${arg.userID}`);
+        const res = await updateDoc(userRef, {
+            following: arrayUnion(arg.uid)
+        })
+        const localUser = JSON.parse(localStorage.getItem("user"));
+        localStorage.setItem("user", JSON.stringify({ ...localUser, following: [...localUser.following, arg.uid] }));
+        return arg.uid;
+    } catch (e) {
+        console.log(e)
     }
-)
+})
 
-export const addToFollowers = createAsyncThunk(
-    "user/addToFollowers",
-    async (arg) => {
-        try {
-            console.log("Adding to following...")
-            const userRef = doc(db, `users/${arg.id}`);
-            const res = await updateDoc(userRef, {
-                followers: arrayUnion(arg.userUID)
-            })
-        } catch (e) {
-            console.log(e)
-        }
+export const addToFollowers = createAsyncThunk("user/addToFollowers", async (arg) => {
+    try {
+        const userRef = doc(db, `users/${arg.id}`);
+        const res = await updateDoc(userRef, {
+            followers: arrayUnion(arg.userUID)
+        })
+    } catch (e) {
+        console.log(e)
     }
-)
+})
 
+export const removeFromFollowing = createAsyncThunk("user/removeFromFollowing", async (arg) => {
+    try {
+        const userRef = doc(db, `users/${arg.userID}`);
+        const res = await updateDoc(userRef, {
+            following: arrayRemove(arg.uid)
+        });
+        const localUser = JSON.parse(localStorage.getItem("user"));
+        const filteredFollowing = localUser.following.filter((userID) => userID !== arg.uid);
+        localStorage.setItem("user", JSON.stringify({ ...localUser, following: filteredFollowing }));
+        return filteredFollowing;
+    } catch (e) {
+        console.log(e)
+    }
+})
 
-export const removeFromFollowing = createAsyncThunk(
-    "user/removeFromFollowing",
-    async (arg) => {
-        try {
-            const userRef = doc(db, `users/${arg.userID}`);
-            const res = await updateDoc(userRef, {
-                following: arrayRemove(arg.uid)
-            });
-            const localUser = JSON.parse(localStorage.getItem("user"));
-            const filteredFollowing = localUser.following.filter((userID) => userID !== arg.uid);
-            localStorage.setItem("user", JSON.stringify({ ...localUser, following: filteredFollowing }));
-            return filteredFollowing;
-        } catch (e) {
-            console.log(e)
-        }
+export const removeFromFollowers = createAsyncThunk("user/removeFromFollowers", async (arg) => {
+    try {
+        const userRef = doc(db, `users/${arg.id}`);
+        const res = await updateDoc(userRef, {
+            followers: arrayRemove(arg.userUID)
+        });
+    } catch (e) {
+        console.log(e)
     }
-)
-export const removeFromFollowers = createAsyncThunk(
-    "user/removeFromFollowers",
-    async (arg) => {
-        try {
-            const userRef = doc(db, `users/${arg.id}`);
-            const res = await updateDoc(userRef, {
-                followers: arrayRemove(arg.userUID)
-            });
-        } catch (e) {
-            console.log(e)
+})
+
+export const postProfileData = createAsyncThunk("user/postProfileData", async (arg) => {
+    try {
+        const userRef = doc(db, `users/${arg.userID}`);
+        const res = await updateDoc(userRef, {
+            fullName: arg.fullName, username: arg.username, bio: arg.bio, portfolioURL: arg.portfolioURL, profilepic: arg.profilepic
+        })
+        const localUser = JSON.parse(localStorage.getItem("user"));
+        localStorage.setItem("user", JSON.stringify(
+            {
+                ...localUser, fullName: arg.fullName, username: arg.username, bio: arg.bio, portfolioURL: arg.portfolioURL, profilepic: arg.profilepic
+            }
+        ));
+        return {
+            fullName: arg.fullName, username: arg.username, bio: arg.bio, portfolioURL: arg.portfolioURL, profilepic: arg.profilepic
         }
-    }
-)
+
+    } catch (e) { console.log(e) }
+})

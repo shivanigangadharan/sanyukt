@@ -4,7 +4,6 @@ import Post from 'components/post/post';
 import FollowThem from 'components/follow-them/follow-them';
 import 'styles.css';
 import './explore-page.css';
-import { useAuth } from 'context/authContext';
 import { postsRef, usersRef, db } from 'firebase';
 import { getDocs, addDoc, query, collection, where } from '@firebase/firestore';
 import { useSelector } from 'react-redux';

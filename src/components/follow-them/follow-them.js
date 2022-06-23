@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import 'styles.css';
 import avatar from 'assets/defaultImg.png';
 import './follow-them.css';
-import { useAuth } from 'context/authContext';
 import { doc, updateDoc, arrayUnion, arrayRemove } from '@firebase/firestore';
 import { db } from '../../firebase';
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,7 +17,6 @@ export default function FollowThem({ userObj }) {
             dispatch(removeFromFollowing({ userID: user.id, uid: uid }));
             dispatch(removeFromFollowers({ id: id, userUID: user.uid }));
         } else {
-            console.log("Calling add functions")
             dispatch(addToFollowers({ id: id, userUID: user.uid }));
             dispatch(addToFollowing({ userID: user.id, uid: uid }));
         }

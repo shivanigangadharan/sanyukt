@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './login.css';
 import 'styles.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from 'context/authContext';
 import { userLogin } from '../../redux/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 

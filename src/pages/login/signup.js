@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './login.css';
 import 'styles.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { useAuth } from 'context/authContext';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSignUp } from '../../redux/slices/userSlice';
 
@@ -14,10 +13,8 @@ export default function Signup() {
     const [password, setPassword] = useState();
     const [fullName, setFullName] = useState();
     const [checkTerms, setCheckTerms] = useState(false);
-    const { SignupUser } = useAuth();
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
-    console.log("user in signup - ", user)
     const toggleCheck = (e) => {
         setCheckTerms(e.target.checked);
     }

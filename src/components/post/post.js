@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './post.css';
 import 'styles.css';
 import avatar from 'assets/defaultImg.png';
-import { useAuth } from 'context/authContext';
 import { usersRef, db, commentsRef } from 'firebase';
 import { updateDoc, arrayUnion, collection, doc, arrayRemove, increment, getDocs, addDoc, deleteDoc } from '@firebase/firestore';
 import { useNavigate } from 'react-router';

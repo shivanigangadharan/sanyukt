@@ -3,19 +3,19 @@ import 'styles.css';
 import Sidebar from 'components/sidebar/sidebar';
 import Post from 'components/post/post';
 import FollowThem from 'components/follow-them/follow-them';
-import { useAuth } from 'context/authContext';
 import { getDocs, addDoc, Timestamp } from '@firebase/firestore';
 import { postsRef, usersRef } from 'firebase';
 import avatar from 'assets/defaultImg.png';
 import { CloudinaryContext, Image } from 'cloudinary-react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function Homepage() {
-    const { user } = useAuth();
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
     const { id } = useParams();
+    const user = useSelector((state) => state.user);
 
     const fetchUsers = async () => {
         const res = await getDocs(usersRef);
@@ -30,7 +30,6 @@ export default function Homepage() {
         const res = await getDocs(postsRef);
         let posts = [];
         res.forEach((doc) => {
-            console.log("doc id: ", doc.id, "id: ", id)
             if (doc.id === id) {
                 posts.push({ ...doc.data(), id: doc.id });
             }

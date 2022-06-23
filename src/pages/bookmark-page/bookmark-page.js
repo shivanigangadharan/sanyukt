@@ -3,7 +3,6 @@ import Sidebar from 'components/sidebar/sidebar';
 import Post from 'components/post/post';
 import FollowThem from 'components/follow-them/follow-them';
 import 'styles.css';
-import { useAuth } from 'context/authContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { db, postsRef, usersRef } from 'firebase';
@@ -44,6 +43,7 @@ export default function BookmarkPage() {
             navigate("/signup");
         }
     }, [localStorage.getItem("uid")]);
+
     return (
         <div className="homepage-container">
             <Sidebar />
