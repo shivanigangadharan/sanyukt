@@ -28,9 +28,7 @@ export default function ProfilePage() {
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
     const dispatch = useDispatch();
-
     const style = {
         position: 'absolute',
         top: '50%',
@@ -162,7 +160,7 @@ export default function ProfilePage() {
                                         <a target="_blank" href={usr.portfolioURL} className="bio red-text"> {usr.portfolioURL} </a>
                                         <div className="followDetails">
                                             <div><b> Followers :  </b>{usr.followers.length}</div>
-                                            <div><b> Following :</b> {usr.following.length} </div>
+                                            <div><b> Following : </b> {usr.following.length} </div>
                                         </div>
                                     </div>
                                 </div>

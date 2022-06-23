@@ -19,7 +19,11 @@ const auth = getAuth();
 const addUserToDB = async (fullName, username, uid) => {
     try {
         const res = await addDoc(usersRef, {
-            ...initialState, fullName: fullName, username: username, uid: uid
+            ...initialState, fullName: fullName, username: username, uid: uid,
+            bookmarks: [], following: [], followers: [], posts: [], likes: [],
+            bio: "Enter a short and suitable bio for yourself.",
+            portfolioURL: "enteryourPortfolio@url.com",
+            profilepic: "https://res.cloudinary.com/dqpanoobq/image/upload/v1654634630/Social%20Media/defaultImg_j01icd.png",
         });
         setUserInLocalStorage(uid);
     }

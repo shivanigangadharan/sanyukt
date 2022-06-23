@@ -27,7 +27,7 @@ export default function BookmarkPage() {
     }
 
     useEffect(async () => {
-        if (localStorage.getItem("uid") !== null) {
+        if (localStorage.getItem("user") !== null) {
             try {
                 let postsArr = [];
                 const res = await getDocs(postsRef);
