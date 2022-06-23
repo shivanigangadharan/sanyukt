@@ -2,70 +2,23 @@ import React, { useEffect } from 'react';
 import 'styles.css';
 import avatar from 'assets/defaultImg.png';
 import './follow-them.css';
-import { useAuth } from 'context/authContext';
 import { doc, updateDoc, arrayUnion, arrayRemove } from '@firebase/firestore';
-import { db } from 'firebase';
+import { db } from '../../firebase';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToFollowing, addToFollowers, removeFromFollowers, removeFromFollowing } from 'redux/slices/userFunctions';
 
 export default function FollowThem({ userObj }) {
     const { fullName, username, following, uid, id, followers, profilepic } = userObj;
-    const { user, setUser } = useAuth();
-
-    const addToFollowing = async () => {
-        try {
-            const userRef = doc(db, `users/${user.id}`);
-            const res = await updateDoc(userRef, {
-                following: arrayUnion(uid)
-            })
-            setUser({ ...user, following: [...user.following, uid] });
-            localStorage.setItem("user", JSON.stringify({ ...user, following: [...user.following, uid] }));
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
-    const addToFollowers = async () => {
-        try {
-            const userRef = doc(db, `users/${id}`);
-            const res = await updateDoc(userRef, {
-                followers: arrayUnion(user.uid)
-            })
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
-    const removeFromFollowing = async () => {
-        try {
-            const userRef = doc(db, `users/${user.id}`);
-            const res = await updateDoc(userRef, {
-                following: arrayRemove(uid)
-            });
-            const filteredFollowing = user.following.filter((userID) => userID !== uid);
-            setUser({ ...user, following: filteredFollowing });
-            localStorage.setItem("user", JSON.stringify({ ...user, following: filteredFollowing }))
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
-    const removeFromFollowers = async () => {
-        try {
-            const userRef = doc(db, `users/${id}`);
-            const res = await updateDoc(userRef, {
-                followers: arrayRemove(user.uid)
-            });
-        } catch (e) {
-            console.log(e)
-        }
-    }
+    const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
 
     const handleFollowClick = () => {
         if (user.following.includes(uid)) {
-            removeFromFollowers();
-            removeFromFollowing();
+            dispatch(removeFromFollowing({ userID: user.id, uid: uid }));
+            dispatch(removeFromFollowers({ id: id, userUID: user.uid }));
         } else {
-            addToFollowers();
-            addToFollowing();
+            dispatch(addToFollowers({ id: id, userUID: user.uid }));
+            dispatch(addToFollowing({ userID: user.id, uid: uid }));
         }
     }
 

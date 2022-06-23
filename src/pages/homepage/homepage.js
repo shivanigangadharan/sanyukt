@@ -3,15 +3,15 @@ import 'styles.css';
 import Sidebar from 'components/sidebar/sidebar';
 import Post from 'components/post/post';
 import FollowThem from 'components/follow-them/follow-them';
-import { useAuth } from 'context/authContext';
 import { getDocs, addDoc, Timestamp } from '@firebase/firestore';
 import { postsRef, usersRef } from 'firebase';
 import avatar from 'assets/defaultImg.png';
 import { CloudinaryContext, Image } from 'cloudinary-react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function Homepage() {
-    const { user } = useAuth();
+    const user = useSelector((state)=>state.user);
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
     const [postContent, setPostContent] = useState("");

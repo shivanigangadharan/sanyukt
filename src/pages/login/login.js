@@ -2,37 +2,38 @@ import React, { useState } from 'react';
 import './login.css';
 import 'styles.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from 'context/authContext';
+import { userLogin } from '../../redux/slices/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Login() {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const { LoginUser } = useAuth();
     const navigate = useNavigate();
-    const handleLogin = async (e) => {
+    const dispatch = useDispatch();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (email === undefined || password === undefined) {
             alert("Please enter email and password.");
         }
         else {
-            const LoginResponse = await LoginUser(email, password);
-            if (LoginResponse) {
+
+            const res = await dispatch(userLogin({ email: email, password: password }))
+            if (res.payload.uid) {
                 navigate("/explore");
             } else {
-                alert("Invalid credentials, please sign up.");
+                alert(res.payload);
             }
         }
     }
     const guestLogin = async (e) => {
         e.preventDefault();
-        try {
-            const LoginResponse = await LoginUser("guest@gmail.com", "guest123");
-            if (LoginResponse) {
-                navigate("/explore");
-            } else {
-                alert("Invalid credentials, please sign up.");
-            }
-        } catch (e) { console.log(e) }
+        const res = await dispatch(userLogin({ email: "guest@gmail.com", password: "guest123" }))
+        if (res.payload.uid) {
+            navigate("/explore");
+        } else {
+            alert(res.payload);
+        }
     }
     return (
         <div>
@@ -57,8 +58,10 @@ export default function Login() {
             </div>
                             <a href="#">Forgot your password?</a>
                         </div>
-                        <button onClick={e => handleLogin(e)} className="btn login">Login</button>
+
+                        <button onClick={e => handleSubmit(e)} className="btn login">Login</button>
                         <button onClick={e => guestLogin(e)} className="btn login">Login as a guest</button>
+
                         <div className="create">
                             <Link to="/signup">
                                 Create new account

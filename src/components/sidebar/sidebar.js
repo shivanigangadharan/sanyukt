@@ -3,15 +3,17 @@ import 'styles.css';
 import './sidebar.css';
 import avatar from '../../assets/defaultImg.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from 'context/authContext';
 import { signOut } from 'firebase/auth';
+import { useSelector, useDispatch } from 'react-redux';
+import { userLogout } from 'redux/slices/userSlice';
 
 export default function Sidebar() {
-    const { user, LogoutUser } = useAuth();
     const navigate = useNavigate();
+    const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
 
     const handleLogout = () => {
-        LogoutUser();
+        dispatch(userLogout());
         navigate("/")
     }
 

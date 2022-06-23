@@ -5,14 +5,15 @@ import FollowThem from 'components/follow-them/follow-them';
 import 'styles.css';
 import './profile-page.css';
 import profilePic from 'assets/defaultImg.png';
-import { useAuth } from 'context/authContext';
 import { getDocs, doc, updateDoc } from '@firebase/firestore';
 import { usersRef, postsRef, db } from 'firebase';
 import { Modal, Box, Typography } from '@mui/material';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { postProfileData } from 'redux/slices/userFunctions';
 
 export default function ProfilePage() {
-    const { user, setUser } = useAuth();
+    const user = useSelector((state) => state.user);
     const [users, setUsers] = useState([]);
     const [posts, setPosts] = useState([]);
     const [display, setDisplay] = useState("following");
@@ -27,6 +28,9 @@ export default function ProfilePage() {
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const dispatch = useDispatch();
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -41,6 +45,7 @@ export default function ProfilePage() {
         p: 4,
         padding: '2rem'
     };
+
     const fetchUsers = async () => {
         const res = await getDocs(usersRef);
         let allUsers = [];
@@ -67,40 +72,12 @@ export default function ProfilePage() {
         data.append("upload_preset", "madhunter");
         data.append("cloud_name", "dqpanoobq");
         const res = await axios.post("https://api.cloudinary.com/v1_1/dqpanoobq/image/upload", data);
-        postData(res.data.url);
+        dispatch(postProfileData({
+            userID: user.id, fullName: fullName, username: username, bio: bio, portfolioURL: portfolioURL, profilepic: res.data.url
+        }));
+        handleClose();
     }
 
-    const postData = async (url) => {
-        handleClose();
-        try {
-            const userRef = doc(db, `users/${user.id}`);
-            const res = await updateDoc(userRef, {
-                fullName: fullName,
-                username: username,
-                bio: bio,
-                portfolioURL: portfolioURL,
-                profilepic: url
-            })
-            setUser({
-                ...user,
-                fullName: fullName,
-                username: username,
-                bio: bio,
-                portfolioURL: portfolioURL,
-                profilepic: url
-            });
-            localStorage.setItem("user", JSON.stringify(
-                {
-                    ...user,
-                    fullName: fullName,
-                    username: username,
-                    bio: bio,
-                    portfolioURL: portfolioURL,
-                    profilepic: url
-                }
-            ));
-        } catch (e) { console.log(e) }
-    }
     useEffect(async () => {
         fetchUsers();
         fetchPosts();

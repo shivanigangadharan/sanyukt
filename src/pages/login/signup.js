@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './login.css';
 import 'styles.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { useAuth } from 'context/authContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { userSignUp } from '../../redux/slices/userSlice';
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -12,28 +13,31 @@ export default function Signup() {
     const [password, setPassword] = useState();
     const [fullName, setFullName] = useState();
     const [checkTerms, setCheckTerms] = useState(false);
-    const { SignupUser } = useAuth();
+    const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
     const toggleCheck = (e) => {
         setCheckTerms(e.target.checked);
     }
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (email === undefined || password === undefined) {
             alert("Please enter email and password.");
         }
         else {
             if (checkTerms) {
-                const response = SignupUser(fullName, username, email, password);
-                if (response === true) {
+                const res = await dispatch(userSignUp({ fullName: fullName, username: username, email: email, password: password }))
+                if (res.payload.uid) {
                     navigate("/explore");
                 } else {
-                    navigate("/")
+                    alert(res)
                 }
             } else {
                 alert("Please accept terms and conditions.");
             }
         }
     }
+
     return (
         <div>
 
