@@ -6,15 +6,12 @@ import { useAuth } from 'context/authContext';
 import { doc, updateDoc, arrayUnion, arrayRemove } from '@firebase/firestore';
 import { db } from '../../firebase';
 import { useSelector, useDispatch } from 'react-redux';
-import { addToFollowing, addToFollowers, removeFromFollowing, removeFromFollowers } from '../../redux/slices/userSlice';
-
+import { addToFollowing, addToFollowers, removeFromFollowers, removeFromFollowing } from 'redux/slices/userFunctions';
 
 export default function FollowThem({ userObj }) {
     const { fullName, username, following, uid, id, followers, profilepic } = userObj;
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
-
-
 
     const handleFollowClick = () => {
         if (user.following.includes(uid)) {

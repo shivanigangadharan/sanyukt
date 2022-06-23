@@ -1,31 +1,21 @@
+import { addBookmark, removeBookmark, addLike, removeLike } from "./postFunctions";
+
+import {
+    getUser, setUserInLocalStorage, addToFollowing,
+    addToFollowers, removeFromFollowers, removeFromFollowing
+} from "./userFunctions";
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "@firebase/auth";
-import { getDocs, addDoc, updateDoc, arrayUnion, doc, arrayRemove } from "@firebase/firestore";
-import { usersRef, db } from "../../firebase";
+import { getDocs, addDoc, arrayRemove } from "@firebase/firestore";
+import { usersRef } from "../../firebase";
 
 //logged in user
 const initialState = localStorage.getItem("user") === null ? {} : JSON.parse(localStorage.getItem("user"));
 
 const auth = getAuth();
 
-const setUserInLocalStorage = async (uid) => {
-    const res = await getDocs(usersRef);
-    res.forEach((doc) => {
-        if (doc.data().uid === uid) {
-            localStorage.setItem("user", JSON.stringify({ ...doc.data(), id: doc.id }))
-        }
-    });
-}
-const getUser = async (uid) => {
-    const res = await getDocs(usersRef);
-    var u;
-    res.forEach((doc) => {
-        if (doc.data().uid === uid) {
-            u = { ...doc.data(), id: doc.id }
-        }
-    });
-    return u;
-}
+
 const addUserToDB = async (fullName, username, uid) => {
     try {
         const res = await addDoc(usersRef, {
@@ -48,6 +38,7 @@ export const userSignUp = createAsyncThunk(
         } catch (e) { console.log(e) }
     }
 )
+
 export const userLogin = createAsyncThunk(
     "user/login",
     async (arg) => {
@@ -61,67 +52,6 @@ export const userLogin = createAsyncThunk(
         catch (e) {
             console.log(e);
             return e;
-        }
-    }
-)
-
-export const addToFollowing = createAsyncThunk(
-    "user/addToFollowing",
-    async (arg) => {
-        try {
-            const userRef = doc(db, `users/${arg.userID}`);
-            const res = await updateDoc(userRef, {
-                following: arrayUnion(arg.uid)
-            })
-            const localUser = JSON.parse(localStorage.getItem("user"));
-            localStorage.setItem("user", JSON.stringify({ ...localUser, following: [...localUser.following, arg.uid] }));
-            return arg.uid;
-        } catch (e) {
-            console.log(e)
-        }
-    }
-)
-export const addToFollowers = createAsyncThunk(
-    "user/addToFollowers",
-    async (arg) => {
-        try {
-            console.log("Adding to following...")
-            const userRef = doc(db, `users/${arg.id}`);
-            const res = await updateDoc(userRef, {
-                followers: arrayUnion(arg.userUID)
-            })
-        } catch (e) {
-            console.log(e)
-        }
-    }
-)
-export const removeFromFollowing = createAsyncThunk(
-    "user/removeFromFollowing",
-    async (arg) => {
-        try {
-            const userRef = doc(db, `users/${arg.userID}`);
-            const res = await updateDoc(userRef, {
-                following: arrayRemove(arg.uid)
-            });
-            const localUser = JSON.parse(localStorage.getItem("user"));
-            const filteredFollowing = localUser.following.filter((userID) => userID !== arg.uid);
-            localStorage.setItem("user", JSON.stringify({ ...localUser, following: filteredFollowing }));
-            return filteredFollowing;
-        } catch (e) {
-            console.log(e)
-        }
-    }
-)
-export const removeFromFollowers = createAsyncThunk(
-    "user/removeFromFollowers",
-    async (arg) => {
-        try {
-            const userRef = doc(db, `users/${arg.id}`);
-            const res = await updateDoc(userRef, {
-                followers: arrayRemove(arg.userUID)
-            });
-        } catch (e) {
-            console.log(e)
         }
     }
 )
@@ -156,8 +86,19 @@ export const userSlice = createSlice({
         },
         [removeFromFollowing.fulfilled]: (state, action) => {
             state.following = action.payload;
+        },
+        [addBookmark.fulfilled]: (state, action) => {
+            state.bookmarks = [...state.bookmarks, action.payload]
+        },
+        [removeBookmark.fulfilled]: (state, action) => {
+            state.bookmarks = action.payload;
+        },
+        [addLike.fulfilled]: (state, action) => {
+            state.likes = [...state.likes, action.payload]
+        },
+        [removeLike.fulfilled]: (state, action) => {
+            state.likes = action.payload;
         }
-
     }
 });
 

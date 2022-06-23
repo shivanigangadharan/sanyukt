@@ -9,8 +9,9 @@ import { useNavigate } from 'react-router';
 import Comment from '../comment/comment';
 import { Modal, Box } from '@mui/material';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { addBookmark, removeBookmark, addLike, removeLike, incrementLikes, decrementLikes } from "redux/slices/postFunctions";
 
 export default function Post({ post }) {
     const [comments, setComments] = useState([]);
@@ -22,43 +23,14 @@ export default function Post({ post }) {
     const [postLikes, setPostLikes] = useState(likes);
     const navigate = useNavigate();
     const user = useSelector((state) => state.user);
-
-    const addBookmark = async () => {
-        try {
-            const userRef = doc(db, `users/${user.id}`);
-            const res = await updateDoc(userRef, {
-                bookmarks: arrayUnion(id)
-            })
-            setUser({ ...user, bookmarks: [...user.bookmarks, id] });
-            localStorage.setItem("user", JSON.stringify({ ...user, bookmarks: [...user.bookmarks, id] }));
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
-
-    const removeBookmark = async () => {
-        try {
-            const userRef = doc(db, `users/${user.id}`);
-            const res = await updateDoc(userRef, {
-                bookmarks: arrayRemove(id)
-            });
-            const filteredBookmarks = user.bookmarks.filter((pid) => pid !== id);
-            setUser({ ...user, bookmarks: filteredBookmarks });
-            localStorage.setItem("user", JSON.stringify({ ...user, bookmarks: filteredBookmarks }));
-
-        } catch (e) {
-            alert("Unable to remove this bookmark.");
-            console.log(e);
-        }
-    }
+    const dispatch = useDispatch();
 
     const handleBookmarkClick = () => {
         if (user) {
             if (user.bookmarks.some(postID => postID === id)) {
-                removeBookmark();
+                dispatch(removeBookmark({ userID: user.id, id: id }))
             } else {
-                addBookmark();
+                dispatch(addBookmark({ userID: user.id, id: id }));
             }
         }
         else {
@@ -67,69 +39,16 @@ export default function Post({ post }) {
         }
     }
 
-    const addLike = async () => {
-        try {
-            const userRef = doc(db, `users/${user.id}`);
-            const res = await updateDoc(userRef, {
-                likes: arrayUnion(id)
-            })
-            setUser({ ...user, likes: [...user.likes, id] });
-            localStorage.setItem("user", JSON.stringify({ ...user, likes: [...user.likes, id] }));
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
-
-    const removeLike = async () => {
-        try {
-            const userRef = doc(db, `users/${user.id}`);
-            const res = await updateDoc(userRef, {
-                likes: arrayRemove(id)
-            });
-            const filteredlikes = user.likes.filter((pid) => pid !== id);
-            setUser({ ...user, likes: filteredlikes });
-            localStorage.setItem("user", JSON.stringify({ ...user, likes: filteredlikes }));
-        } catch (e) {
-            alert("Unable to remove this bookmark.");
-            console.log(e);
-        }
-    }
-
-    const incrementLikes = async () => {
-        try {
-            const postRef = doc(db, `posts/${id}`);
-            const res = await updateDoc(postRef, {
-                likes: increment(1)
-            });
-            setPostLikes(postLikes + 1);
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
-
-    const decrementLikes = async () => {
-        try {
-            const postRef = doc(db, `posts/${id}`);
-            const res = await updateDoc(postRef, {
-                likes: increment(-1)
-            });
-            setPostLikes(postLikes - 1);
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
-
     const handleLikeClick = () => {
         if (user) {
             if (user.likes.some(postID => postID === id)) {
-                removeLike();
-                decrementLikes();
+                dispatch(removeLike({ userID: user.id, id: id }))
+                dispatch(decrementLikes({id:id}))
+                setPostLikes(postLikes - 1);
             } else {
-                addLike();
-                incrementLikes();
+                dispatch(addLike({ userID: user.id, id: id }));
+                dispatch(incrementLikes({id:id}));
+                setPostLikes(postLikes + 1);
             }
         }
         else {
