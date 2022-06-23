@@ -38,7 +38,8 @@ export const userSignUp = createAsyncThunk(
         try {
             const res = await createUserWithEmailAndPassword(auth, arg.email, arg.password);
             addUserToDB(arg.fullName, arg.username, res.user.uid)
-            return res.user;
+            const loggedUser = getUser(res.user.uid);
+            return loggedUser;
         } catch (e) { console.log(e) }
     }
 )
@@ -77,7 +78,19 @@ export const userSlice = createSlice({
     reducers: {},
     extraReducers: {
         [userSignUp.fulfilled]: (state, action) => {
-            state.email = action.payload.email
+            state.uid = action.payload.uid;
+            state.fullName = action.payload.fullName;
+            state.username = action.payload.username;
+            state.posts = action.payload.posts;
+            state.bookmarks = action.payload.bookmarks;
+            state.likes = action.payload.likes;
+            state.followers = action.payload.followers;
+            state.following = action.payload.following;
+            state.bio = action.payload.bio;
+            state.portfolioURL = action.payload.portfolioURL;
+            state.uid = action.payload.uid;
+            state.id = action.payload.id;
+            state.profilepic = action.payload.profilepic;
         },
         [userLogin.fulfilled]: (state, action) => {
             state.uid = action.payload.uid;
