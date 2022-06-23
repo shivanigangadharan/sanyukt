@@ -7,6 +7,7 @@ Sanyukt, which means connected, is a social networking app that lets you build y
 ## Technologies used
 
 - React
+- Redux Toolkit
 - Firebase
 - Cloudinary
 
