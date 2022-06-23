@@ -59,8 +59,8 @@ export default function Login() {
                             <a href="#">Forgot your password?</a>
                         </div>
 
-                        <button onClick={e => handleSubmit(e)} className="btn login">Login</button>
-                        <button onClick={e => guestLogin(e)} className="btn login">Login as a guest</button>
+                        <button onClick={handleSubmit} className="btn login">Login</button>
+                        <button onClick={guestLogin} className="btn login">Login as a guest</button>
 
                         <div className="create">
                             <Link to="/signup">
