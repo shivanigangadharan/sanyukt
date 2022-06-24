@@ -208,6 +208,10 @@ export default function ProfilePage() {
             </div>
 
             <div className="follow-them-grid">
+            <div className="follow-them-title">
+                    <span><b> Who to follow</b> </span>
+                    {/* <span className="red-text"> Show more </span> */}
+                </div>
                 {
                     users.map((usr) => {
                         if (user.uid !== usr.uid) {

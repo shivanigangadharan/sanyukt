@@ -1,6 +1,7 @@
-import { getDocs, updateDoc, arrayUnion, arrayRemove, doc } from "@firebase/firestore";
-import { usersRef, db } from "../../firebase";
+import { getDocs, updateDoc, arrayUnion, arrayRemove, doc, Timestamp, addDoc } from "@firebase/firestore";
+import { usersRef, db, postsRef } from "../../firebase";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 
 export const getUser = async (uid) => {
     const res = await getDocs(usersRef);
@@ -89,5 +90,21 @@ export const postProfileData = createAsyncThunk("user/postProfileData", async (a
             ...localUser, fullName: arg.fullName, username: arg.username, bio: arg.bio, portfolioURL: arg.portfolioURL, profilepic: arg.profilepic
         }
 
+    } catch (e) { console.log(e) }
+})
+
+export const sendPostContent = createAsyncThunk("user/sendPostContent", async (arg) => {
+
+    try {
+        const res = await addDoc(postsRef, {
+            content: arg.text,
+            fullName: arg.fullName,
+            username: arg.username,
+            uid: arg.uid,
+            imgURL: arg.file,
+            likes: 0,
+            profilepic: arg.profilepic,
+            createdAt: new Timestamp(new Date().getSeconds(), 0)
+        });
     } catch (e) { console.log(e) }
 })

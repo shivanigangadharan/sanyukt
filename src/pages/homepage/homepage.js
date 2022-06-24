@@ -8,14 +8,16 @@ import { postsRef, usersRef } from 'firebase';
 import avatar from 'assets/defaultImg.png';
 import { CloudinaryContext, Image } from 'cloudinary-react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { sendPostContent } from 'redux/slices/userFunctions';
 
 export default function Homepage() {
-    const user = useSelector((state)=>state.user);
+    const user = useSelector((state) => state.user);
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
     const [postContent, setPostContent] = useState("");
     const [file, setFile] = useState(null);
+    const dispatch = useDispatch();
 
     const fetchPosts = async () => {
         const res = await getDocs(postsRef);
@@ -44,7 +46,11 @@ export default function Homepage() {
 
     const postImage = async () => {
         if (file === null) {
-            sendPostContent("");
+            console.log("file null, text= ", postContent);
+            await dispatch(sendPostContent({ fullName: user.fullName, username: user.username, uid: user.uid, profilepic: user.profilepic, text: postContent, file: null }));
+            setPostContent("");
+            setFile();
+            fetchPosts();
         } else {
             try {
                 const data = new FormData();
@@ -52,28 +58,12 @@ export default function Homepage() {
                 data.append("upload_preset", "madhunter");
                 data.append("cloud_name", "dqpanoobq");
                 const res = await axios.post("https://api.cloudinary.com/v1_1/dqpanoobq/image/upload", data);
-                sendPostContent(res.data.url);
+                await dispatch(sendPostContent({ fullName: user.fullName, username: user.username, uid: user.uid, profilepic: user.profilepic, text: postContent, file: res.data.url }));
+                setPostContent("");
+                setFile();
+                fetchPosts();
             } catch (e) { console.log(e) }
         }
-    }
-
-    const sendPostContent = async (url) => {
-        try {
-            const res = await addDoc(postsRef, {
-                content: postContent,
-                fullName: user.fullName,
-                username: user.username,
-                uid: JSON.parse(localStorage.getItem("uid")),
-                imgURL: url,
-                likes: 0,
-                profilepic: user.profilepic,
-                createdAt: new Timestamp(new Date().getSeconds(), 0)
-            });
-            setPostContent("");
-            setFile();
-            fetchPosts();
-
-        } catch (e) { console.log(e) }
     }
 
     const handleAddPost = () => {
@@ -115,7 +105,7 @@ export default function Homepage() {
             <div className="follow-them-grid">
                 <div className="follow-them-title">
                     <span><b> Who to follow</b> </span>
-                    <span className="red-text"> Show more </span>
+                    {/* <span className="red-text"> Show more </span> */}
                 </div>
                 {
                     users.map((usr) => {
