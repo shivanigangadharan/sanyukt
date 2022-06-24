@@ -65,7 +65,7 @@ export default function ExplorePage() {
             <div className="follow-them-grid">
                 <div className="follow-them-title">
                     <span><b> Who to follow</b> </span>
-                    <span className="red-text"> Show more </span>
+                    {/* <span className="red-text"> Show more </span> */}
                 </div>
                 {
                     user && users.map((usr) => {
