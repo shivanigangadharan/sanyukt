@@ -10,6 +10,7 @@ import { CloudinaryContext, Image } from 'cloudinary-react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendPostContent } from 'redux/slices/userFunctions';
+import noData from 'assets/noData.png';
 
 export default function Homepage() {
     const user = useSelector((state) => state.user);
@@ -97,9 +98,14 @@ export default function Homepage() {
                 </div>
                 <h3> Posts for you</h3>
                 {
-                    posts.map((post) => {
-                        return <Post post={post} key={post.id} />
-                    })
+                    posts.length === 0 ?
+                        <div className="noData">
+                            <img src={noData} />
+                        </div>
+                        :
+                        posts.map((post) => {
+                            return <Post post={post} key={post.id} />
+                        })
                 }
             </div>
             <div className="follow-them-grid">

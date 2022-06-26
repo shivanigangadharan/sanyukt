@@ -41,3 +41,13 @@
 .bg-teal{
     background: var(--primary)
 }
+.noData{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+.noData>*{
+    width: 300px;
+    opacity: 0.5;
+}

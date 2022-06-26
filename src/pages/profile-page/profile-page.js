@@ -11,6 +11,7 @@ import { Modal, Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { postProfileData } from 'redux/slices/userFunctions';
+import noData from 'assets/noData.png';
 
 export default function ProfilePage() {
     const user = useSelector((state) => state.user);
@@ -147,6 +148,11 @@ export default function ProfilePage() {
                 <div hidden={display === "following" ? false : true}>
                     <h2> Following </h2>
                     {
+                         user.following.length === 0 ?
+                         <div className="noData">
+                             <img src={noData} />
+                         </div>
+                         :
                         users.map((usr) => {
                             if (user.following.includes(usr.uid)) {
                                 return <div className="follow-container" key={usr.id}>
@@ -172,43 +178,53 @@ export default function ProfilePage() {
                 <div hidden={display === "followers" ? false : true}>
                     <h2> Followers </h2>
                     {
-                        users.map((usr) => {
-                            if (user.followers.includes(usr.uid)) {
-                                return <div className="follow-container" key={usr.id}>
-                                    <img className="avatar" src={usr.profilepic} alt="profilePic" />
-                                    <div>
-                                        <div className="follow-title">
-                                            <h4> {usr.fullName} </h4>
-                                            <span className="grey-text"> @{usr.username} </span>
-                                        </div>
-                                        <div>{usr.bio}</div>
-                                        <a target="_blank" href={usr.portfolioURL} className="bio red-text"> {usr.portfolioURL} </a>
-                                        <div className="followDetails">
-                                            <div><b> Followers :  </b>{usr.followers.length}</div>
-                                            <div><b> Following :</b> {usr.following.length} </div>
+                        user.followers.length === 0 ?
+                            <div className="noData">
+                                <img src={noData} />
+                            </div>
+                            :
+                            users.map((usr) => {
+                                if (user.followers.includes(usr.uid)) {
+                                    return <div className="follow-container" key={usr.id}>
+                                        <img className="avatar" src={usr.profilepic} alt="profilePic" />
+                                        <div>
+                                            <div className="follow-title">
+                                                <h4> {usr.fullName} </h4>
+                                                <span className="grey-text"> @{usr.username} </span>
+                                            </div>
+                                            <div>{usr.bio}</div>
+                                            <a target="_blank" href={usr.portfolioURL} className="bio red-text"> {usr.portfolioURL} </a>
+                                            <div className="followDetails">
+                                                <div><b> Followers :  </b>{usr.followers.length}</div>
+                                                <div><b> Following :</b> {usr.following.length} </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
-                        })
+                                }
+                            })
                     }
                 </div>
 
                 <div hidden={display === "posts" ? false : true}>
                     <h2> Your posts </h2>
                     {
-                        posts.map((post) => {
-                            if (post.uid === user.uid) {
-                                return <Post post={post} key={post.id} />
-                            }
-                        })
+                        user.posts.length === 0 ?
+                            <div className="noData">
+                                <img src={noData} />
+                            </div>
+                            :
+                            posts.map((post) => {
+                                if (post.uid === user.uid) {
+                                    return <Post post={post} key={post.id} />
+                                }
+                            })
                     }
                 </div>
 
             </div>
 
             <div className="follow-them-grid">
-            <div className="follow-them-title">
+                <div className="follow-them-title">
                     <span><b> Who to follow</b> </span>
                     {/* <span className="red-text"> Show more </span> */}
                 </div>
