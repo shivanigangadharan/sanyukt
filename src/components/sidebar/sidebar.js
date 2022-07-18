@@ -26,7 +26,7 @@ export default function Sidebar() {
                 {/* <Link to="/notifications"><span><i className="fa-solid fa-bell"></i> Notifications </span></Link> */}
                 <Link to="/profile"><span><i className="fa-solid fa-circle-user"></i> Profile </span></Link>
                 <span onClick={handleLogout}><i className="fa-solid fa-arrow-right-from-bracket"></i> Logout </span>
-                <Link to="/homepage"> <button className="btn create-post-btn"> Create new post </button></Link>
+                {/* <Link to="/homepage"> <button className="btn create-post-btn"> Create new post </button></Link> */}
             </div>
             <div className="user-avatar-container">
                 <div className="user-avatar-content">

@@ -5,7 +5,7 @@ import {
     addToFollowers, removeFromFollowers, removeFromFollowing, postProfileData
 } from "./userFunctions";
 
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "@firebase/auth";
 import { getDocs, addDoc, arrayRemove } from "@firebase/firestore";
 import { usersRef } from "../../firebase";
@@ -40,7 +40,7 @@ export const userSignUp = createAsyncThunk(
             addUserToDB(arg.fullName, arg.username, res.user.uid)
             const loggedUser = getUser(res.user.uid);
             return loggedUser;
-        } catch (e) { console.log(e) }
+        } catch (e) { console.log(e); throw (e); }
     }
 )
 
@@ -77,6 +77,9 @@ export const userSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
+        [userSignUp.rejected]: (state, action) => {
+            console.log("Rejected: ", action.error.message);
+        },
         [userSignUp.fulfilled]: (state, action) => {
             state.uid = action.payload.uid;
             state.fullName = action.payload.fullName;

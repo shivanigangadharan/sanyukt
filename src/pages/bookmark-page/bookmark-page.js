@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router';
 import { db, postsRef, usersRef } from 'firebase';
 import { query, collection, where, getDocs } from '@firebase/firestore';
 import { useSelector } from 'react-redux';
+import noData from 'assets/noData.png';
 
 export default function BookmarkPage() {
     const user = useSelector((state) => state.user)
@@ -16,7 +17,6 @@ export default function BookmarkPage() {
     const [users, setUsers] = useState([]);
 
     const navigate = useNavigate();
-
     const fetchUsers = async () => {
         const res = await getDocs(usersRef);
         let allUsers = [];
@@ -42,7 +42,7 @@ export default function BookmarkPage() {
             alert("Sign in")
             navigate("/signup");
         }
-    }, [localStorage.getItem("uid")]);
+    }, [localStorage.getItem("user")]);
 
     return (
         <div className="homepage-container">
@@ -50,8 +50,11 @@ export default function BookmarkPage() {
             <div className="homepage-content">
                 <h2> Your bookmarks </h2>
                 {
-                    posts.length === 0 ? <div><h3>No posts to show here! </h3></div> :
-                        <div>
+                    user.bookmarks.length === 0 ?
+                        <div className="noData">
+                            <img src={noData} alt="No data" />
+                        </div>
+                        : <div>
                             {
                                 posts.map((post) => {
                                     if (user.bookmarks.includes(post.id)) {

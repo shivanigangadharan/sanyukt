@@ -10,6 +10,8 @@ import { CloudinaryContext, Image } from 'cloudinary-react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { sendPostContent } from 'redux/slices/userFunctions';
+import noData from 'assets/noData.png';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Homepage() {
     const user = useSelector((state) => state.user);
@@ -46,11 +48,11 @@ export default function Homepage() {
 
     const postImage = async () => {
         if (file === null) {
-            console.log("file null, text= ", postContent);
             await dispatch(sendPostContent({ fullName: user.fullName, username: user.username, uid: user.uid, profilepic: user.profilepic, text: postContent, file: null }));
             setPostContent("");
             setFile();
             fetchPosts();
+            toast.success("Post created!")
         } else {
             try {
                 const data = new FormData();
@@ -62,13 +64,16 @@ export default function Homepage() {
                 setPostContent("");
                 setFile();
                 fetchPosts();
-            } catch (e) { console.log(e) }
+                toast.success("Post created!")
+            } catch (e) {
+                toast.error(e)
+            }
         }
     }
 
     const handleAddPost = () => {
         if (postContent === "" && file === null) {
-            alert("Please add some content to post.");
+            toast.error("Please add some text or an image to post.")
         } else {
             postImage();
         }
@@ -79,6 +84,7 @@ export default function Homepage() {
         <div className="homepage-container">
             <Sidebar />
             <div className="homepage-content">
+                <Toaster />
                 <div className="create-post-container">
                     <img alt="profile-pic" src={user.profilepic} className="avatar" />
                     <div className="create-post-content">
@@ -97,9 +103,14 @@ export default function Homepage() {
                 </div>
                 <h3> Posts for you</h3>
                 {
-                    posts.map((post) => {
-                        return <Post post={post} key={post.id} />
-                    })
+                    posts.length === 0 ?
+                        <div className="noData">
+                            <img src={noData} alt="No data" />
+                        </div>
+                        :
+                        posts.map((post) => {
+                            return <Post post={post} key={post.id} />
+                        })
                 }
             </div>
             <div className="follow-them-grid">
