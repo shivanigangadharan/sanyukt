@@ -71,6 +71,19 @@ export const removeLike = createAsyncThunk(
     }
 )
 
+export const addPost = createAsyncThunk(
+    "post/addPost", async (arg) => {
+        try {
+            const localUser = JSON.parse(localStorage.getItem("user"));
+            localStorage.setItem("user", JSON.stringify({ ...localUser, posts: arg.posts }));
+            return arg.posts;
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+)
+
 export const incrementLikes = createAsyncThunk(
     "post/incrementLikes", async (arg) => {
         try {

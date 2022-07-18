@@ -1,4 +1,4 @@
-import { addBookmark, removeBookmark, addLike, removeLike } from "./postFunctions";
+import { addBookmark, removeBookmark, addLike, removeLike, addPost } from "./postFunctions";
 
 import {
     getUser, setUserInLocalStorage, addToFollowing,
@@ -130,6 +130,9 @@ export const userSlice = createSlice({
         },
         [removeLike.fulfilled]: (state, action) => {
             state.likes = action.payload;
+        },
+        [addPost.fulfilled]: (state, action) => {
+            state.posts = action.payload;
         },
         [postProfileData.fulfilled]: (state, action) => {
             state.fullName = action.payload.fullName;
