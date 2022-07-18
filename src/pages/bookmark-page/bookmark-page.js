@@ -17,7 +17,6 @@ export default function BookmarkPage() {
     const [users, setUsers] = useState([]);
 
     const navigate = useNavigate();
-    console.log("user - ", user)
     const fetchUsers = async () => {
         const res = await getDocs(usersRef);
         let allUsers = [];
