@@ -53,7 +53,7 @@ export default function BookmarkPage() {
                 {
                     user.bookmarks.length === 0 ?
                         <div className="noData">
-                            <img src={noData} />
+                            <img src={noData} alt="No data" />
                         </div>
                         : <div>
                             {

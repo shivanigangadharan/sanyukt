@@ -157,7 +157,7 @@ export default function ProfilePage() {
                     {
                         user.following.length === 0 ?
                             <div className="noData">
-                                <img src={noData} />
+                                <img src={noData} alt="No data" />
                             </div>
                             :
                             users.map((usr) => {
@@ -187,7 +187,7 @@ export default function ProfilePage() {
                     {
                         user.followers.length === 0 ?
                             <div className="noData">
-                                <img src={noData} />
+                                <img src={noData} alt="No data" />
                             </div>
                             :
                             users.map((usr) => {
@@ -217,7 +217,7 @@ export default function ProfilePage() {
                     {
                         user.posts.length === 0 ?
                             <div className="noData">
-                                <img src={noData} />
+                                <img src={noData} alt="No data" />
                             </div>
                             :
                             posts.map((post) => {
