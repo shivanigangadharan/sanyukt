@@ -4,6 +4,7 @@ import 'styles.css';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSignUp } from '../../redux/slices/userSlice';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -21,26 +22,28 @@ export default function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (email === undefined || password === undefined) {
-            alert("Please enter email and password.");
+        if (username === undefined || fullName === undefined || email === undefined || password === undefined) {
+            toast.error("Please enter all details.", { duration: 3000 });
         }
         else {
             if (checkTerms) {
                 const res = await dispatch(userSignUp({ fullName: fullName, username: username, email: email, password: password }))
-                if (res.payload.uid) {
+
+                if (res.payload) {
                     navigate("/explore");
                 } else {
-                    alert(res)
+                    toast.error(`Sign up failed: ${res.error.message}`, { duration: 3000 });
                 }
             } else {
-                alert("Please accept terms and conditions.");
+                toast.error('Please accept terms and conditions.', { duration: 3000 });
+
             }
         }
     }
 
     return (
         <div>
-
+            <div><Toaster /></div>
             <div className="page-container bg-teal">
 
                 <div className="container-login">

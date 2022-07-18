@@ -4,6 +4,7 @@ import 'styles.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { userLogin } from '../../redux/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Login() {
     const [email, setEmail] = useState();
@@ -14,15 +15,14 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (email === undefined || password === undefined) {
-            alert("Please enter email and password.");
+            toast.error("Please enter credentials.", { duration: 3000 });
         }
         else {
-
             const res = await dispatch(userLogin({ email: email, password: password }))
             if (res.payload.uid) {
                 navigate("/explore");
             } else {
-                alert(res.payload);
+                toast.error('Invalid credentials', { duration: 3000 });
             }
         }
     }
@@ -32,11 +32,13 @@ export default function Login() {
         if (res.payload.uid) {
             navigate("/explore");
         } else {
-            alert(res.payload);
+            toast.error('Invalid credentials', { duration: 3000 });
         }
     }
     return (
         <div>
+            <div><Toaster /></div>
+
             <div className="page-container bg-teal">
 
                 <div className="container-login">
@@ -54,9 +56,9 @@ export default function Login() {
                         </center>
                         <div className="remember-me">
                             <div>
-                                <input type="checkbox" /> Remember me
-            </div>
-                            <a href="#">Forgot your password?</a>
+                                {/* <input type="checkbox" /> Remember me */}
+                            </div>
+                            {/* <a href="#">Forgot your password?</a> */}
                         </div>
 
                         <button onClick={handleSubmit} className="btn login">Login</button>

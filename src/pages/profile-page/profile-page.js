@@ -12,6 +12,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { postProfileData } from 'redux/slices/userFunctions';
 import noData from 'assets/noData.png';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function ProfilePage() {
     const user = useSelector((state) => state.user);
@@ -66,15 +67,20 @@ export default function ProfilePage() {
     }
 
     const handleSave = async () => {
-        const data = new FormData();
-        data.append("file", imageFile);
-        data.append("upload_preset", "madhunter");
-        data.append("cloud_name", "dqpanoobq");
-        const res = await axios.post("https://api.cloudinary.com/v1_1/dqpanoobq/image/upload", data);
-        dispatch(postProfileData({
-            userID: user.id, fullName, username, bio, portfolioURL, profilepic: res.data.url
-        }));
-        handleClose();
+        try {
+            const data = new FormData();
+            data.append("file", imageFile);
+            data.append("upload_preset", "madhunter");
+            data.append("cloud_name", "dqpanoobq");
+            const res = await axios.post("https://api.cloudinary.com/v1_1/dqpanoobq/image/upload", data);
+            dispatch(postProfileData({
+                userID: user.id, fullName, username, bio, portfolioURL, profilepic: res.data.url
+            }));
+            toast.success("Saved!");
+            handleClose();
+        } catch (e) {
+            toast.error(e);
+        }
     }
 
     useEffect(async () => {
@@ -86,6 +92,7 @@ export default function ProfilePage() {
         <div className="homepage-container">
             <Sidebar />
             <div className="homepage-content">
+                <Toaster />
                 <center>
                     <div className="profile-content">
                         <div><img alt="profile-pic" src={user.profilepic} className="profile-pic" /></div>
@@ -148,30 +155,30 @@ export default function ProfilePage() {
                 <div hidden={display === "following" ? false : true}>
                     <h2> Following </h2>
                     {
-                         user.following.length === 0 ?
-                         <div className="noData">
-                             <img src={noData} />
-                         </div>
-                         :
-                        users.map((usr) => {
-                            if (user.following.includes(usr.uid)) {
-                                return <div className="follow-container" key={usr.id}>
-                                    <img className="avatar" src={usr.profilepic} alt="profilePic" />
-                                    <div>
-                                        <div className="follow-title">
-                                            <h4> {usr.fullName} </h4>
-                                            <span className="grey-text"> @{usr.username} </span>
-                                        </div>
-                                        <div>{usr.bio}</div>
-                                        <a target="_blank" href={usr.portfolioURL} className="bio red-text"> {usr.portfolioURL} </a>
-                                        <div className="followDetails">
-                                            <div><b> Followers :  </b>{usr.followers.length}</div>
-                                            <div><b> Following : </b> {usr.following.length} </div>
+                        user.following.length === 0 ?
+                            <div className="noData">
+                                <img src={noData} />
+                            </div>
+                            :
+                            users.map((usr) => {
+                                if (user.following.includes(usr.uid)) {
+                                    return <div className="follow-container" key={usr.id}>
+                                        <img className="avatar" src={usr.profilepic} alt="profilePic" />
+                                        <div>
+                                            <div className="follow-title">
+                                                <h4> {usr.fullName} </h4>
+                                                <span className="grey-text"> @{usr.username} </span>
+                                            </div>
+                                            <div>{usr.bio}</div>
+                                            <a target="_blank" href={usr.portfolioURL} className="bio red-text"> {usr.portfolioURL} </a>
+                                            <div className="followDetails">
+                                                <div><b> Followers :  </b>{usr.followers.length}</div>
+                                                <div><b> Following : </b> {usr.following.length} </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
-                        })
+                                }
+                            })
                     }
                 </div>
 
