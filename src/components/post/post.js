@@ -97,13 +97,13 @@ export default function Post({ post }) {
             });
             console.log(posts)
             dispatch(addPost({ posts: posts }));
-            toast.success("Post deleted.")
         } catch (e) { toast.error(e) }
     }
 
     const deletePost = async () => {
         const res = await deleteDoc(doc(db, "posts", id));
         fetchPosts();
+        toast.success("Post deleted.")
     }
 
     useEffect(() => {
@@ -154,7 +154,8 @@ export default function Post({ post }) {
                 content: newContent,
                 imgURL: url
             })
-            window.location.reload();
+            fetchPosts();
+            toast.success("Saved post.");
         } catch (e) { console.log(e) }
     }
 
