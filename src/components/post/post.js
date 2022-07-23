@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './post.css';
 import 'styles.css';
 import avatar from 'assets/defaultImg.png';
-import { usersRef, db, commentsRef } from 'firebase';
+import { usersRef, db, commentsRef, postsRef } from 'firebase';
 import { updateDoc, arrayUnion, collection, doc, arrayRemove, increment, getDocs, addDoc, deleteDoc } from '@firebase/firestore';
 import { useNavigate } from 'react-router';
 import Comment from '../comment/comment';
@@ -10,7 +10,8 @@ import { Modal, Box } from '@mui/material';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addBookmark, removeBookmark, addLike, removeLike, incrementLikes, decrementLikes } from "redux/slices/postFunctions";
+import { addBookmark, removeBookmark, addLike, removeLike, incrementLikes, decrementLikes, addPost } from "redux/slices/postFunctions";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Post({ post }) {
     const [comments, setComments] = useState([]);
@@ -42,11 +43,11 @@ export default function Post({ post }) {
         if (user) {
             if (user.likes.some(postID => postID === id)) {
                 dispatch(removeLike({ userID: user.id, id: id }))
-                dispatch(decrementLikes({id:id}))
+                dispatch(decrementLikes({ id: id }))
                 setPostLikes(postLikes - 1);
             } else {
                 dispatch(addLike({ userID: user.id, id: id }));
-                dispatch(incrementLikes({id:id}));
+                dispatch(incrementLikes({ id: id }));
                 setPostLikes(postLikes + 1);
             }
         }
@@ -85,9 +86,24 @@ export default function Post({ post }) {
         } catch (e) { console.log(e) }
     }
 
+    const fetchPosts = async () => {
+        try {
+            const res = await getDocs(postsRef);
+            let posts = [];
+            res.forEach((doc) => {
+                if (doc.data().uid === user.uid) {
+                    posts.push({ ...doc.data(), id: doc.id });
+                }
+            });
+            console.log(posts)
+            dispatch(addPost({ posts: posts }));
+        } catch (e) { toast.error(e) }
+    }
+
     const deletePost = async () => {
         const res = await deleteDoc(doc(db, "posts", id));
-        window.location.reload();
+        fetchPosts();
+        toast.success("Post deleted.")
     }
 
     useEffect(() => {
@@ -138,14 +154,15 @@ export default function Post({ post }) {
                 content: newContent,
                 imgURL: url
             })
-            window.location.reload();
+            fetchPosts();
+            toast.success("Saved post.");
         } catch (e) { console.log(e) }
     }
 
 
     return (
         <div className="post-container">
-
+            {/* <Toaster /> */}
             <img className="avatar" src={profilepic} alt="user-avatar" />
             <div className="post-content">
                 <div className="post-top-section">
